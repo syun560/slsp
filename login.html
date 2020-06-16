@@ -17,20 +17,28 @@
 </div>
   
 <div class="container">
-  <div class="row">
-    <div class="col-sm-3"></div>
-    <div class="col-sm-6">
-        <form action="/action_page.php">
-          <div class="form-group">
-            <label for="usr">Username:</label>
-            <input type="text" class="form-control" id="usr" name="user_id">
-          </div>
-          <div class="form-group">
-            <label for="pwd">Password:</label>
-            <input type="password" class="form-control" id="pwd" name="PW">
-          </div>
-        </form>
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+            <form action="/action_page.php">
+            <div class="form-group">
+                <label for="usr">Username:</label>
+                <input type="text" class="form-control" id="usr" name="user_id" placeholder="aa00000@shibaura-it.ac.jp">
+            </div>
+            <div class="form-group">
+                <label for="pwd">Password:</label>
+                <input type="password" class="form-control" id="pwd" name="PW" placeholder="8-16文字半角">
+            </div>
+            </form>
+        </div>
+        <div class="col-sm-3"></div>
     </div>
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+            <!--error_messageはここに入れる-->
+            <p class="text-danger"></p>
+        </div>
     <div class="col-sm-3"></div>
   </div>
   <div class="row">
