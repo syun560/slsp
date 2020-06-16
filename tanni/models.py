@@ -1,6 +1,6 @@
 from django.db import models
 
-# C6.M1 科目情報モデル
+# C7.M1 科目情報モデル
 class Subject(models.Model):
     title = models.Charfield(verbose_name='科目名', max_length=64)
     group = models.Charfield(verbose_name='分類', max_length=64)
@@ -10,7 +10,7 @@ class Subject(models.Model):
     def __str__(self):
         return self.title
 
-# C6.M2 開講科目情報モデル
+# C7.M2 開講科目情報モデル
 class Course(models.Model):
     subject_id = models.ForeignKey(Subject, verbose_name='科目id', on_delete=models.CASCADE)
     year = models.Integerfield(verbose_name='年度')
@@ -23,7 +23,7 @@ class Course(models.Model):
     def __str__(self):
         return self.subject_id + self.week + self.period
 
-# C6.M3 学則情報モデル
+# C7.M3 学則情報モデル
 class ShibauraRule(models.Model):
     department = models.Charfield(verbose_name='学科', max_length=64)
     year = models.Integerfield(verbose_name='入学年度')
