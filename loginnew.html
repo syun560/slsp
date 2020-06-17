@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <title>Surasapo Login</title>
+  <title>Sign Up</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
@@ -20,7 +20,7 @@
     <div class="row">
         <div class="col-sm-3"></div>
         <div class="col-sm-6">
-            <h2 style="text-align:center">ログイン</h2>
+            <h2 style="text-align:center">新規登録</h2>
             <form action="/action_page.php">
             <div class="form-group">
                 <label for="usr">Username:</label>
@@ -30,27 +30,24 @@
                 <label for="pwd">Password:</label>
                 <input type="password" class="form-control" id="pwd" name="PW" placeholder="8-16文字半角">
             </div>
+            <div class="form-group">
+                <label for="pwd2">Password confirmation:</label>
+                <input type="password" class="form-control" id="pwd2" name="PW_check" placeholder="もう一度パスワードを入力してください">
+            </div>
             </form>
-            <!--error_messageはここに入れる-->
-            <p class="text-danger"></p>
+            <p class="text-danger">
+                <!--error_messageはここに入れる-->
+                <!--username error, password error, confirmation error-->
+            </p>
         </div>
         <div class="col-sm-3"></div>
     </div>
     <div class="row">
         <div class="col-sm-5"></div>
         <div class="col-sm-2">
-            <button type="submit" class="btn btn-primary">ログイン</button>
+            <button type="submit" class="btn btn-primary">登録</button>
         </div>
-        <div class="col-sm-2">
-            <button type="submit" class="btn btn-primary">新規登録</button>
-        </div>
-        <div class="col-sm-3"></div>
-    </div>
-    <div>
-<p></p>
-    <p class="text-center">
-        <a href="#" class="text-primary">パスワードを忘れた</a>
-    </p>
+        <div class="col-sm-5"></div>
     </div>
 </div>
 
