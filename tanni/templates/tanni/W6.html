@@ -1,0 +1,157 @@
+<html>
+
+<head>
+<style>
+.right {
+  float: right;
+  width: 125px;
+  //border: 3px solid #73AD21;
+  padding: 5px;
+}
+.center {
+  margin: auto;
+  width: 50%;
+  text-align: center;
+  border: 0px solid green;
+  padding: 10px;
+}
+table.a {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+table.b { 
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 30%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+#myDIV {
+  width: 100%;
+  padding: 50px 0;
+  text-align: left;
+  background-color: none;
+  margin-top: 20px;
+}
+</style>
+
+</head>
+<body>
+<div class="right">
+<p><a href="http://www.google.com">ホームへ戻る</a></p>
+</div>
+<a id=AccountID></a>としてログインしています。<br>
+卒業に必要な単位のシミュレーションを行います。<br>
+＜取得済み単位＞<br>
+・スラサポ利用前（２０１９年度後期以前）<br>
+科目群ごとに取得した単位数を入力し、確定をクリックしてください。<br>
+<table class="a">
+<thread>
+<th>科目群</th><th>単位数</th>
+</thread>
+<tr>
+<td>専門</td><td><input type="number" id="s1" name="spec" min="0" max="99"  value="0"></td>
+</tr>
+<tr>
+<td>共通数理</td><td><input type="number" id="s2" name="math" min="0" max="99"  value="0"></td>
+</tr>
+<tr>
+<td>言語・情報系</td><td><input type="number" id="s3" name="lang" min="0" max="99"  value="0"></td>
+</tr>
+<tr>
+<td>人文社会系教養</td><td><input type="number" id="s4" name="social" min="0" max="99" value="0"></td>
+</tr>
+<tr>
+<td>共通健康</td><td><input type="number" id="s5" name="health" min="0" max="99" value="0"></td>
+</tr>
+<tr>
+<td>共通工学系教養</td><td><input type="number" id="s6" name="engine" min="0" max="99" value="0"></td>
+</tr>
+</table>
+<div class="center"><button onclick="myFunction();calculate()">確定</button></div>
+
+<div id="myDIV" style="display:none"><p>
+・スラサポ登録分
+<table class="b">
+<tr>
+<td>専門</td><td></td>
+</tr>
+<tr>
+<td>共通数理</td><td></td>
+</tr>
+<tr>
+<td>言語・情報系</td><td></td>
+</tr>
+<tr>
+<td>人文社会系教養</td><td></td>
+</tr>
+<tr>
+<td>共通健康</td><td></td>
+</tr>
+<tr>
+<td>共通工学系教養</td><td></td>
+</tr>
+<tr>
+<td>取得済み単位合計</td><td><a id=totalcrd></a></td>
+</tr>
+</table>
+<br>
+<br>
+＜卒業に必要な残りの単位＞
+<table class="b">
+<tr>
+<td>専門</td><td></td>
+</tr>
+<tr>
+<td>共通数理</td><td></td>
+</tr>
+<tr>
+<td>言語・情報系</td><td></td>
+</tr>
+<tr>
+<td>人文社会系教養</td><td></td>
+</tr>
+<tr>
+<td>共通健康</td><td></td>
+</tr>
+<tr>
+<td>共通工学系教養</td><td></td>
+</tr>
+<tr>
+<td>卒業に必要な残りの単位合計</td><td></td>
+</tr>
+</table>
+</p></div>
+<script>
+var AccountID = "";
+  document.getElementById("AccountID").innerHTML = "AB12345";
+function myFunction() {
+  var x = document.getElementById("myDIV");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } 
+}
+function calculate(){
+  var sum = 0;
+  var s = 
+  [document.getElementById('s1').value,
+  document.getElementById('s2').value,
+  document.getElementById('s3').value,
+  document.getElementById('s4').value,
+  document.getElementById('s5').value,
+  document.getElementById('s6').value]; 
+  for (var i = 0; i < s.length ; i++){
+  sum += parseInt(s[i]);
+  }
+  document.getElementById("totalcrd").innerHTML = sum;
+}
+</script>
+
+</body>
+</html>
