@@ -1,14 +1,5 @@
-
-<html lang="ja">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to shrink-to-fit=no">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-    
-    <title>スラサポ</title>
-  </head>
-  <body>
+{% extends 'tanni/base.html' %}
+{% block content %}
     <p>aa00001としてログインしています。</p>
     <p>ホーム画面へ戻る</p>
     <p>ユーザ一覧を表示しています。<br>
@@ -43,24 +34,22 @@
             <option>4</option>
         </select>年
     </p>
-
-    <table class = "table table-hover table-sm">
-        <tr>
-            <th>学籍番号</tr><th>名前</tr>
-        </tr>
-        <tr>
-            <th >aa00001</tr><th>AbcdEfgh</tr>
-        </tr>
-        <!--
-            行のテンプレート
-        <tr>
-            <th></tr><th></tr>
-        </tr>
-        -->
-    </table>
-    <!-- ここに本文を記述します -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-  </body>
-</html>
+    <div class="table-responsive">
+        <table class="table table-hover table-sm">
+            <thead class="thead-light">
+                <tr>
+                    <th>学籍番号</th>
+                    <th>名前</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for usr in user_all %}
+                <tr>
+                    <td>{{ usr.student_id }} </td>
+                    <td>{{ usr.username }} </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

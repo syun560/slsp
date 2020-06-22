@@ -1,0 +1,47 @@
+{% extends 'account/base.html' %}
+{% block content %}
+
+<div class="jumbotron text-center">
+    <h1>スラサポ</h1>
+    <p>スクール・ライフ・サポート</p> 
+</div>
+  
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3"></div>
+            <div class="col-sm-6">
+                <h2 style="text-align:center">ログイン</h2>
+                <form action="/action_page.php">
+                <div class="form-group">
+                    <label for="usr">Username:</label>
+                    <input type="text" class="form-control" id="usr" name="user_id" placeholder="aa00000@shibaura-it.ac.jp">
+                </div>
+                <div class="form-group">
+                    <label for="pwd">Password:</label>
+                    <input type="password" class="form-control" id="pwd" name="PW" placeholder="8-16文字半角">
+                </div>
+                </form>
+                <!--error_messageはここに入れる-->
+                <p class="text-danger"></p>
+            </div>
+        <div class="col-sm-3"></div>
+    </div>
+    <div class="row">
+        <div class="col-sm-5"></div>
+        <div class="col-sm-2">
+            <button type="submit" class="btn btn-primary">ログイン</button>
+        </div>
+        <div class="col-sm-2">
+            <button type="submit" class="btn btn-primary">新規登録</button>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+    <div>
+    <p></p>
+    <p class="text-center">
+        <a href="#" class="text-primary">パスワードを忘れた</a>
+    </p>
+    </div>
+</div>
+
+{% endblock %}

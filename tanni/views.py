@@ -1,8 +1,21 @@
 from django.shortcuts import render
+from account.models import User
 
-# Create your views here.
-def index(request):
+def home(request):
     params = {
-        'user': 'testuser',
+        
     }
-    return render(request, 'tanni/index.html', params)
+    return render(request, 'tanni/home.html', params)
+
+def userinfo(request):
+    params = {
+        
+    }
+    return render(request, 'tanni/userinfo.html', params)
+
+def userlist(request):
+    user_all = User.objects.all()
+    params = {
+        'user_all': user_all,
+    }
+    return render(request, 'tanni/userlist.html', params)
