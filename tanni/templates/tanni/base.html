@@ -6,6 +6,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+        {% block style %}{% endblock %}
     </head>
     <body>
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
@@ -19,10 +20,10 @@
                         <a class="nav-link" href="{% url 'home' %}">ホーム</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">履修状況確認</a>
+                        <a class="nav-link" href="{% url 'reg' %}">履修状況確認</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">シミュレーション</a>
+                        <a class="nav-link" href="{% url 'sim' %}">シミュレーション</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'userlist' %}">ユーザ一覧</a>
@@ -33,5 +34,6 @@
         <div class="container" style="margin-top:30px">
             {% block content %}{% endblock %}
         </div>
+        {% block script %}{% endblock %}
     </body>
 </html>>
