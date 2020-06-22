@@ -1,14 +1,6 @@
 from django.db import models
 from account.models import User
 
-# C6.M2 ユーザ時間割モデル（本来ここに書くべきでない、あとで移動するかも）
-class UserTimeTable(models.Model):
-    user_id = models.ForeignKey(Subject, verbose_name='ユーザid', on_delete=models.CASCADE)
-    course_id = models.ForeignKey(Subject, verbose_name='開講科目id', on_delete=models.CASCADE)
-    status = models.CharField(verbose_name='履修状況', max_length=64)
-    def __str__(self):
-        return self.title
-
 # C7.M1 科目情報モデル
 class Subject(models.Model):
     title = models.CharField(verbose_name='科目名', max_length=64)
@@ -41,3 +33,11 @@ class ShibauraRule(models.Model):
 
     def __str__(self):
         return self.department
+
+# C6.M2 ユーザ時間割モデル（本来ここに書くべきでない、あとで移動するかも）
+class UserTimeTable(models.Model):
+    user_id = models.ForeignKey(User, verbose_name='ユーザid', on_delete=models.CASCADE)
+    course_id = models.ForeignKey(Course, verbose_name='開講科目id', on_delete=models.CASCADE)
+    status = models.CharField(verbose_name='履修状況', max_length=64)
+    def __str__(self):
+        return self.title
