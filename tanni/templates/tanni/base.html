@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <title>Surasapo</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+        {% block style %}{% endblock %}
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+            <a class="navbar-brand" href="#"><img src="{% static "tanni/logo1.jpg" %}" alt="(logo)" style="height:60px;"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-center" id="collapsibleNavbar">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'tanni:home' %}">ホーム</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'tanni:reg' %}">履修状況確認</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'tanni:sim' %}">シミュレーション</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'tanni:userlist' %}">ユーザ一覧</a>
+                    </li>
+                </ul>
+            </div>  
+        </nav>
+        <div class="container mt-4">
+            {% block content %}{% endblock %}
+        </div>
+        {% block script %}{% endblock %}
+    </body>
+</html>>

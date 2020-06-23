@@ -1,0 +1,106 @@
+{% extends 'tanni/base.html' %}
+{% block content %}
+<div class="row">
+    <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+            <h2 style="text-align:center">ホーム</h2>
+            <p class="text-danger">
+                <!--error_messageはここに入れる-->
+                <!--username error, password error, confirmation error-->
+            </p>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+        <h2 class="text-center"><a href="{% url 'tanni:reg' %}">履修状況変更</a></h2>
+        <h5 class="text-center">自分の履修状況を確認・変更する</h5>
+        {% for tt in time_table %}
+            {{ forloop.counter }}: 
+            {{ tt.course_id.week }}
+            {{ tt.course_id.subject_id.title }}
+            <br>
+        {% endfor %}
+
+        
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">月</th>
+                    <th scope="col">火</th>
+                    <th scope="col">水</th>
+                    <th scope="col">木</th>
+                    <th scope="col">金</th>
+                    <th scope="col">土</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- <tr>
+                    {% for tt in time_table %}
+                    <th scope="row">{{ forloop.counter }}限</th>
+                        <td>{{ tt.course_id.subject_id.title }}</td>
+                    {% endfor %}
+                </tr> -->
+                <tr>
+                    <th scope="row">1限</th>
+                    <td>テスト</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th scope="row">2限</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th scope="row">3限</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th scope="row">4限</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th scope="row">5限</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <p>aaaa</p>
+        <br>
+        <h2 class="text-center"><a href="{% url 'tanni:sim' %}}">シミュレーション</a></h2>
+        <h5 class="text-center">卒業要件の単位数計算</h5>
+        <br>
+        <h2 class="text-center"><a href="{% url 'tanni:userlist' %}">ユーザ一覧</a></h2>
+        <h5 class="text-center">他のユーザの履修状況を確認する</h5>
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
+</div>
+
+{% endblock %}

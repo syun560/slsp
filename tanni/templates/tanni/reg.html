@@ -1,0 +1,282 @@
+{% extends 'tanni/base.html' %}
+{% block style %}
+<style>
+.right {
+  float: right;
+  width: 225px;
+  padding: 5px;
+}
+table.a {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+table.b {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 10%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+#myDIV {
+  width: 100%;
+  padding: 50px 0;
+  text-align: left;
+  background-color: none;
+  margin-top: 20px;
+}
+
+#myDIV2 {
+  width: 100%;
+  padding: 50px 0;
+  text-align: left;
+  background-color: none;
+  margin-top: 20px;
+}
+
+#myDIV3 {
+  width: 100%;
+  padding: 50px 0;
+  text-align: left;
+  background-color: none;
+  margin-top: 20px;
+}
+
+.selected {
+    color: red;
+}
+</style>
+{% endblock %}
+{% block content %}
+<a id=AccountID></a>としてログインしています。<br>
+科目の登録・変更を行います。<br>
+下の時間割から登録・変更したい時間をクリックしてください。<br>
+<table class="a" id="display-table">
+	<thead>
+		<th></th><th>月</th><th>火</th><th>水</th><th>木</th><th>金</th><th>土</th>
+	</thead>
+	<tbody>
+		<tr>
+			<th>9:00-10:40</th><td>bla</td><td></td><td></td><td></td><td></td><td></td>
+		</tr>
+		<tr>
+			<th>10:50-12:30</th><td></td><td></td><td></td><td></td><td></td><td></td>
+		</tr>
+		<tr>
+			<th>13:10-14:50</th><td></td><td></td><td></td><td></td><td></td><td></td>
+		</tr>
+		<tr>
+			<th>15:00-16:40</th><td></td><td></td><td></td><td></td><td></td><td></td>
+		</tr>
+		<tr>
+			<th>16:50-18:30</th><td></td><td></td><td></td><td></td><td></td><td></td>
+		</tr>
+	</tbody>
+</table>
+<div id="myDIV" style="display:none"><p>
+	選択中：<a id=choseID></a>(現在登録科目：<a id=subjID></a>)<br>
+	科目群を選択してください。<br>
+	<table class="b" id="display-table-2">
+		<tr>
+			<td>専門</td>
+		</tr>
+		<tr>
+			<td>共通数理</td>
+		</tr>
+		<tr>
+			<td>言語・情報系</td>
+		</tr>
+		<tr>
+			<td>人文社会系教養</td>
+		</tr>
+		<tr>
+			<td>共通健康</td>
+		</tr>
+		<tr>
+			<td>共通工学系教養</td>
+		</tr>
+		</table>
+		</p>
+</div>
+	<div id="myDIV2" style="display:none"><p>
+	追加したい科目名をクリックしてください。
+	<table class="a" id="display-table-3">
+		<thead>
+			<th>科目群</th><th>科目名</th><th>教員</th><th>キャンパス</th><th>単位</th>
+		</thead>
+		<tbody>
+		<tr>
+		<td></td><td>bla</td><td></td><td></td><td></td>
+		</tr>
+		<tr>
+		><td></td><td></td><td></td><td></td><td></td>
+		</tr>
+	</tbody>
+</table>
+</p></div>
+<div id="myDIV3" style="display:none"><p>
+<br><br>（選択中：<a id="choseID2"></a>）<a href="http://www.google.com">追加する</a><br><br>
+</p></div>
+<script>
+var AccountID = "";
+document.getElementById("AccountID").innerHTML = "AB12345";
+var CF = 0;
+var CF2 = 0;
+var SF = 0;
+var CF3 = 0;
+var choseID = "";
+var choseID2 = "";
+var subjID = "";
+function myFunction() {
+  var x = document.getElementById("myDIV");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } 
+  else{
+  x.style.display = "none";
+  }
+}
+
+function myFunction2() {
+  var x = document.getElementById("myDIV2");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  }
+  else{
+  x.style.display = "none";
+  }
+}
+
+function myFunction3() {
+  var x = document.getElementById("myDIV3");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  }
+  else{
+  x.style.display = "none";
+  }
+}
+
+choose1();
+function choose1() {
+	
+    var table = document.getElementById('display-table');
+    var cells = table.getElementsByTagName('td');
+
+    for (var i = 0; i < cells.length; i++) {
+        var cell = cells[i];
+        cell.onclick = function () {
+            var rowId = this.parentNode.rowIndex-1;
+			var cellId = this.cellIndex-1;
+			var CellSelected = table.getElementsByTagName('td')[cellId+rowId*6];
+			var TempR = cellId+rowId*6;
+            var cellsNotSelected = cells;
+			
+			if (CellSelected.style.backgroundColor === "yellow"){
+				CellSelected.style.backgroundColor = "";
+				CellSelected.classList.remove('selected');
+				myFunction();
+				CF = 0;
+				return;
+			}
+			
+            for (var c = 0; c < cellsNotSelected.length; c++) {
+                cellsNotSelected[c].style.backgroundColor = "";
+                cellsNotSelected[c].classList.remove('selected');
+            }
+			
+            CellSelected.style.backgroundColor = "yellow";
+            CellSelected.className += " selected";
+			rowId += 1;
+			if(table.rows[rowId].cells[cellId+1].innerHTML === "")
+				document.getElementById("subjID").innerHTML = "無";
+			else {
+				document.getElementById("subjID").innerHTML = table.rows[rowId].cells[cellId+1].innerHTML;
+			}
+			document.getElementById("choseID").innerHTML = table.rows[0].cells[cellId+1].innerHTML + "曜" + rowId + "限";
+			if(CF === 0){
+				myFunction();
+				CF = 1;
+			}
+		}
+	}
+}
+
+choose2();
+function choose2(){
+
+	var table = document.getElementById('display-table-2');
+		var cells = table.getElementsByTagName('td');
+		
+		for (var i = 0; i < cells.length; i++) {
+			var cell = cells[i];
+			cell.onclick = function () {
+				var rowId = this.parentNode.rowIndex;
+				var rowSelected = table.getElementsByTagName('tr')[rowId];
+				var rowsNotSelected = table.getElementsByTagName('tr');
+				
+				if (rowSelected.style.backgroundColor === "yellow"){
+				rowSelected.style.backgroundColor = "";
+				rowSelected.classList.remove('selected');
+				CF2 -=1;
+				if(CF2 === 0 && SF === 1){
+					myFunction2();
+					SF = 0;
+				}
+				return;
+				}
+			rowSelected.style.backgroundColor = "yellow";
+            rowSelected.className += " selected";
+			CF2 += 1;
+			if(CF2 > 0 && SF === 0){
+				myFunction2();
+				SF = 1;
+			}
+		}
+	}
+}
+
+choose3();
+function choose3(){
+
+	var table = document.getElementById('display-table-3');
+		var cells = table.getElementsByTagName('td');
+		
+		for (var i = 0; i < cells.length; i++) {
+			var cell = cells[i];
+			cell.onclick = function () {
+				var rowId = this.parentNode.rowIndex;
+				var rowSelected = table.getElementsByTagName('tr')[rowId];
+				var rowsNotSelected = table.getElementsByTagName('tr');
+				
+				if (rowSelected.style.backgroundColor === "yellow"){
+				rowSelected.style.backgroundColor = "";
+				rowSelected.classList.remove('selected');
+				myFunction3();
+				CF3 = 0;
+				return;
+				}
+				
+				for (var row = 0; row < rowsNotSelected.length; row++) {
+                rowsNotSelected[row].style.backgroundColor = "";
+                rowsNotSelected[row].classList.remove('selected');
+				}
+				
+			rowSelected.style.backgroundColor = "yellow";
+            rowSelected.className += " selected";
+			document.getElementById("choseID2").innerHTML = table.rows[rowId].cells[1].innerHTML;
+			if(CF3 === 0){
+				myFunction3();
+				CF3 = 1;
+			}
+		}
+	}
+}
+
+</script>
+{% endblock %}
