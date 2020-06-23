@@ -1,6 +1,5 @@
-<html>
-
-<head>
+{% extends 'tanni/base.html' %}
+{% block style %}
 <style>
 .right {
   float: right;
@@ -52,75 +51,72 @@ td, th {
     color: red;
 }
 </style>
-
-</head>
-<body>
-<div class="right">
-<p><a href="http://www.google.com">登録を中止しホーム画面へ</a></p>
-</div>
+{% endblock %}
+{% block content %}
 <a id=AccountID></a>としてログインしています。<br>
 科目の登録・変更を行います。<br>
 下の時間割から登録・変更したい時間をクリックしてください。<br>
 <table class="a" id="display-table">
-<thead>
-<th></th><th>月</th><th>火</th><th>水</th><th>木</th><th>金</th><th>土</th>
-</thead>
-<tbody>
-<tr>
-<th>9:00-10:40</th><td>bla</td><td></td><td></td><td></td><td></td><td></td>
-</tr>
-<tr>
-<th>10:50-12:30</th><td></td><td></td><td></td><td></td><td></td><td></td>
-</tr>
-<tr>
-<th>13:10-14:50</th><td></td><td></td><td></td><td></td><td></td><td></td>
-</tr>
-<tr>
-<th>15:00-16:40</th><td></td><td></td><td></td><td></td><td></td><td></td>
-</tr>
-<tr>
-<th>16:50-18:30</th><td></td><td></td><td></td><td></td><td></td><td></td>
-</tr>
-</tbody>
+	<thead>
+		<th></th><th>月</th><th>火</th><th>水</th><th>木</th><th>金</th><th>土</th>
+	</thead>
+	<tbody>
+		<tr>
+			<th>9:00-10:40</th><td>bla</td><td></td><td></td><td></td><td></td><td></td>
+		</tr>
+		<tr>
+			<th>10:50-12:30</th><td></td><td></td><td></td><td></td><td></td><td></td>
+		</tr>
+		<tr>
+			<th>13:10-14:50</th><td></td><td></td><td></td><td></td><td></td><td></td>
+		</tr>
+		<tr>
+			<th>15:00-16:40</th><td></td><td></td><td></td><td></td><td></td><td></td>
+		</tr>
+		<tr>
+			<th>16:50-18:30</th><td></td><td></td><td></td><td></td><td></td><td></td>
+		</tr>
+	</tbody>
 </table>
 <div id="myDIV" style="display:none"><p>
-選択中：<a id=choseID></a>(現在登録科目：<a id=subjID></a>)<br>
-科目群を選択してください。<br>
-<table class="b" id="display-table-2">
-<tr>
-<td>専門</td>
-</tr>
-<tr>
-<td>共通数理</td>
-</tr>
-<tr>
-<td>言語・情報系</td>
-</tr>
-<tr>
-<td>人文社会系教養</td>
-</tr>
-<tr>
-<td>共通健康</td>
-</tr>
-<tr>
-<td>共通工学系教養</td>
-</tr>
-</table>
-</p></div>
-<div id="myDIV2" style="display:none"><p>
-追加したい科目名をクリックしてください。
-<table class="a" id="display-table-3">
-<thead>
-<th>科目群</th><th>科目名</th><th>教員</th><th>キャンパス</th><th>単位</th>
-</thead>
-<tbody>
-<tr>
-<td></td><td>bla</td><td></td><td></td><td></td>
-</tr>
-<tr>
-><td></td><td></td><td></td><td></td><td></td>
-</tr>
-</tbody>
+	選択中：<a id=choseID></a>(現在登録科目：<a id=subjID></a>)<br>
+	科目群を選択してください。<br>
+	<table class="b" id="display-table-2">
+		<tr>
+			<td>専門</td>
+		</tr>
+		<tr>
+			<td>共通数理</td>
+		</tr>
+		<tr>
+			<td>言語・情報系</td>
+		</tr>
+		<tr>
+			<td>人文社会系教養</td>
+		</tr>
+		<tr>
+			<td>共通健康</td>
+		</tr>
+		<tr>
+			<td>共通工学系教養</td>
+		</tr>
+		</table>
+		</p>
+</div>
+	<div id="myDIV2" style="display:none"><p>
+	追加したい科目名をクリックしてください。
+	<table class="a" id="display-table-3">
+		<thead>
+			<th>科目群</th><th>科目名</th><th>教員</th><th>キャンパス</th><th>単位</th>
+		</thead>
+		<tbody>
+		<tr>
+		<td></td><td>bla</td><td></td><td></td><td></td>
+		</tr>
+		<tr>
+		><td></td><td></td><td></td><td></td><td></td>
+		</tr>
+	</tbody>
 </table>
 </p></div>
 <div id="myDIV3" style="display:none"><p>
@@ -283,6 +279,4 @@ function choose3(){
 }
 
 </script>
-
-</body>
-</html>
+{% endblock %}
