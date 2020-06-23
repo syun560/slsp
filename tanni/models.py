@@ -22,7 +22,7 @@ class Course(models.Model):
     teacher = models.CharField(verbose_name='教員氏名', max_length=64)
 
     def __str__(self):
-        return self.subject_id + self.week + self.period
+        return str(self.subject_id) + str(self.week) + str(self.period)
 
 # C7.M3 学則情報モデル
 class ShibauraRule(models.Model):
@@ -40,4 +40,4 @@ class UserTimeTable(models.Model):
     course_id = models.ForeignKey(Course, verbose_name='開講科目id', on_delete=models.CASCADE)
     status = models.CharField(verbose_name='履修状況', max_length=64)
     def __str__(self):
-        return self.title
+        return str(self.user_id)
