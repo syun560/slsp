@@ -24,6 +24,7 @@ class Course(models.Model):
     def __str__(self):
         return str(self.subject_id) + str(self.week) + str(self.period)
 
+
 # C7.M3 学則情報モデル
 class ShibauraRule(models.Model):
     department = models.CharField(verbose_name='学科', max_length=64)

@@ -2,15 +2,20 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
 from account.models import User
-from .models import UserTimeTable
+from .models import UserTimeTable, Course
 
 @login_required
 def home(request):
-
     # ログインユーザの履修している科目を取得
     time_table = UserTimeTable.objects.filter(user_id=request.user)
+
+    # 時間割に適した形で取得
+    jikanwari = [["" for s in range(6)] for ss in range(5)]
+    for tt in time_table:
+        jikanwari[tt.course_id.period - 1][tt.course_id.week - 1] = tt.course_id.subject_id.title
+
     params = {
-        'time_table': time_table,
+        'jikanwari': jikanwari,
     }
     return render(request, 'tanni/home.html', params)
 
