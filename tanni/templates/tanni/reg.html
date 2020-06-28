@@ -61,21 +61,14 @@ td, th {
 		<th></th><th>月</th><th>火</th><th>水</th><th>木</th><th>金</th><th>土</th>
 	</thead>
 	<tbody>
-		<tr>
-			<th>9:00-10:40</th><td>bla</td><td></td><td></td><td></td><td></td><td></td>
-		</tr>
-		<tr>
-			<th>10:50-12:30</th><td></td><td></td><td></td><td></td><td></td><td></td>
-		</tr>
-		<tr>
-			<th>13:10-14:50</th><td></td><td></td><td></td><td></td><td></td><td></td>
-		</tr>
-		<tr>
-			<th>15:00-16:40</th><td></td><td></td><td></td><td></td><td></td><td></td>
-		</tr>
-		<tr>
-			<th>16:50-18:30</th><td></td><td></td><td></td><td></td><td></td><td></td>
-		</tr>
+		{% for jk in time_table %}
+        <tr>
+            <th scope="row">{{ forloop.counter }}限</th>
+            {% for j in jk %}
+                <td>{{ j }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
 	</tbody>
 </table>
 <div id="myDIV" style="display:none"><p>

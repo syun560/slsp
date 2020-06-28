@@ -2,7 +2,7 @@
 {% block content %}
     <p>aa00001としてログインしています。</p>
     <p>ホーム画面へ戻る</p>
-    <p>Aさん(AA12345)の履修科目</p>
+    <p>{{ selected_user.username }}さん({{ selected_user.student_id }})の履修科目</p>
     <!--時間割…授業名と教員名(イニシャル)を表示-->
     <table class = "table table-hover table-sm table-bordered">
         <tr class = "table-primary">
@@ -14,50 +14,13 @@
             <th>金</th>
             <th>土</th>
         </tr>
+        {% for jk in time_table %}
         <tr>
-            <th>1</th>
-            <th>Math<br>T.S</th>
-            <th>Java<br>T.S</th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
+            <th scope="row">{{ forloop.counter }}限</th>
+            {% for j in jk %}
+                <td>{{ j }}</td>
+            {% endfor %}
         </tr>
-        <tr>
-            <th>2</th>
-            <th>CLanguage<br>I.S</th>
-            <th></th>
-            <th>ComputerArchitecture<br>K.U</th>
-            <th></th>
-            <th>English<br>Y.S</th>
-            <th></th>
-        </tr>
-        <tr>
-            <th>3</th>
-            <th></th>
-            <th>Science<br>E.F</th>
-            <th></th>
-            <th>DataStructure&Algorythm<br>H.I</th>
-            <th></th>
-            <th></th>
-        </tr>
-        <tr>
-            <th>4</th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-        </tr>
-        <tr>
-            <th>5</th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-        </tr>                
+        {% endfor %}
     </table>
 {% endblock %}
