@@ -47,21 +47,34 @@ def Syllabus_Scraping ( ):
 
 	for i in Subjects:
 		for j in i.find_all ( "tr", attrs = { "class", "subject" } ):
-			print ( "授業名", j.contents[3].string )
+			print ( "授業名 : ", j.contents[3].string )
 			# print ( j.contents[9].string )
 			# for k in range ( 6, 14 ):
 			# 	if j.contents[k].string is not None:
 			# 		print ( k )
 			# 		print ( j.contents[k].string )
 
+			print ( "必修状況 : " )
 			for k in range ( 6, 14 ):
-				for l in range ( 0, 4 ):
-					if kind_tanni[j.contents[k].string] is None:
-						print ( j.contents[k].string )
+				if j.contents[k].string is not None:
+					# print ( k )
+					print ( j.contents[k].string )
+			for l in j.find_all ( colspan = "2" ):
+				if ( "◎" ) in l:
+					if l.text is not "None":
+						print ( l.text )
+				if ( "△" ) in l:
+					if l.text is not "None":
+						print ( l.text )
 					
-			# if j.contents[6].string is not "None":
-			# print ( j.contents[6].string )
-			print ( "単位数", j.contents[5].string, "\n" )
+			if j.contents[6].string is not "None":
+				print ( j.contents[6].string )
+				print ( "コマ数 : ", j.contents[15].string )
+				print ( "単位数 : ", j.contents[5].string, "\n" )
+
+			# for k in j.find_all ( colspan = "2" ):
+			# 	if "◎" in k:
+			# 		print ( k.text )
 			
 			# for k in range ( 0, 20 ):
 			# 	for l in kind_tanni:
