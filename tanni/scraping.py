@@ -1,3 +1,9 @@
+"""
+File Name : scraping.py
+Designer : Kaito Akizuki
+Date : 2020/07/01, am3:53
+"""
+
 from django.shortcuts import render
 from urllib import request
 from bs4 import BeautifulSoup
@@ -5,7 +11,7 @@ import re
 import regex
 
 def Time_Scraping ( ):
-	# url
+    	# url
 	url = "http://timetable.sic.shibaura-it.ac.jp/table/2020/Timetable1L0113.html"
 
 	#get html
@@ -43,52 +49,45 @@ def Syllabus_Scraping ( ):
 
 	Subjects = soup.find_all ( "tbody" )
 
-	kind_tanni = { "◎":"必修", "○":"選択必修", "△":"選択", "□":"自由", "☆":"必須認定" }
+	# kind_tanni = { "◎":"必修", "○":"選択必修", "△":"選択", "□":"自由", "☆":"必須認定" }
 
 	for i in Subjects:
 		for j in i.find_all ( "tr", attrs = { "class", "subject" } ):
 			print ( "授業名 : ", j.contents[3].string )
-			# print ( j.contents[9].string )
+			print ( "必修状況 : ", end = "" )
+
+			for k in j.find_all ( align = "CENTER" ):
+				print ( k.text, end = "" )
+					
+			print ( "\nコマ数 : ", j.contents[15].string )
+			print ( "単位数 : ", j.contents[5].string, "\n" )
+
+			# 卒研,海外実習コマ数 -> 14, 通常コマ数 -> 15, 情報工学実習コマ -> 11
+
+
+			# for l in j.find_all ( colspan = "2" ):
+			# 	if ( "◎" ) in l:
+			# 		if l.text is not "None":
+			# 			print ( l.text, end = "" )
+			# 	if ( "△" ) in l:
+			# 		if l.text is not "None":
+			# 			print ( l.text, end = "" )
+
 			# for k in range ( 6, 14 ):
 			# 	if j.contents[k].string is not None:
-			# 		print ( k )
 			# 		print ( j.contents[k].string )
 
-			print ( "必修状況 : " )
-			for k in range ( 6, 14 ):
-				if j.contents[k].string is not None:
-					# print ( k )
-					print ( j.contents[k].string )
-			for l in j.find_all ( colspan = "2" ):
-				if ( "◎" ) in l:
-					if l.text is not "None":
-						print ( l.text )
-				if ( "△" ) in l:
-					if l.text is not "None":
-						print ( l.text )
-					
-			if j.contents[6].string is not "None":
-				print ( j.contents[6].string )
-				print ( "コマ数 : ", j.contents[15].string )
-				print ( "単位数 : ", j.contents[5].string, "\n" )
-
+			# if j.contents[6].string is not "None":
+			# 	print ( j.contents[6].string )
+			
 			# for k in j.find_all ( colspan = "2" ):
 			# 	if "◎" in k:
 			# 		print ( k.text )
-			
+
 			# for k in range ( 0, 20 ):
 			# 	for l in kind_tanni:
 			# 		if ( j.contents[k] == l):
 			# 			print ( l )
-	
-	#print ClassInfo
-	# for subject in Subjects:
-	# 	subject.td.decompose ( ) # tdタグを除去
-	# 	print ( "講義名 : ", end = '' )
-	# 	print ( subject.contents[0], subject.td.string )
-	# 	subject.td.decompose ( ) # tdタグを除去
-	# 	print ( "単位数 : ", end = '' )
-	# 	print ( subject.contents[1], subject.td.string, "\n" )
 
 	"""
 	#url
