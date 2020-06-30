@@ -4,10 +4,9 @@ from bs4 import BeautifulSoup
 import re
 import regex
 
-def scraping ( ):
-	"""
-	#url
-	url = "http://syllabus.sic.shibaura-it.ac.jp/syllabus/2018/MatrixL01131.html.ja"
+def Time_Scraping ( ):
+	# url
+	url = "http://timetable.sic.shibaura-it.ac.jp/table/2020/Timetable1L0113.html"
 
 	#get html
 	html = request.urlopen ( url )
@@ -15,18 +14,68 @@ def scraping ( ):
 	#set BeautifulSoup
 	soup = BeautifulSoup ( html, "html.parser" )
 
+	weeks = [ "mon", "tue", "wed", "thu", "fri", "sat", "oth" ]
+
+	for week in weeks:
+		print ( "\n" + week + "\n" )
+		#get ClassInfo
+		temp = soup.find_all ( "table", id = week )
+		for time in range ( 0, 6 ):
+			# 1限 ( row = 0 )
+			print ( "\n" )
+			print ( time + 1, end = "" )
+			print ( "限\n" )
+			for i in temp:
+				for k in i.find_all ( "td", row = time ):
+					for j in k.find_all ( "a", target = "_blank" ):
+						print ( j.string, "\n" )
+
+def Syllabus_Scraping ( ):
+	#url
+	url = "http://syllabus.sic.shibaura-it.ac.jp/syllabus/2018/MatrixL01131.html.ja"
+	#get html
+	html = request.urlopen ( url )
+	#set BeautifulSoup
+	soup = BeautifulSoup ( html, "html.parser" )
+
 	#get ClassInfo
-	Subjects = soup.find_all ( "tr", attrs = { "class", "subject" } )
+	# Subjects = soup.find_all ( "tr", attrs = { "class", "subject" } )
+
+	Subjects = soup.find_all ( "tbody" )
+
+	kind_tanni = { "◎":"必修", "○":"選択必修", "△":"選択", "□":"自由", "☆":"必須認定" }
+
+	for i in Subjects:
+		for j in i.find_all ( "tr", attrs = { "class", "subject" } ):
+			print ( "授業名", j.contents[3].string )
+			# print ( j.contents[9].string )
+			# for k in range ( 6, 14 ):
+			# 	if j.contents[k].string is not None:
+			# 		print ( k )
+			# 		print ( j.contents[k].string )
+
+			for k in range ( 6, 14 ):
+				for l in range ( 0, 4 ):
+					if kind_tanni[j.contents[k].string] is None:
+						print ( j.contents[k].string )
+					
+			# if j.contents[6].string is not "None":
+			# print ( j.contents[6].string )
+			print ( "単位数", j.contents[5].string, "\n" )
+			
+			# for k in range ( 0, 20 ):
+			# 	for l in kind_tanni:
+			# 		if ( j.contents[k] == l):
+			# 			print ( l )
 	
 	#print ClassInfo
-	for subject in Subjects:
-		subject.td.decompose ( ) # tdタグを除去
-		print ( "講義名 : ", end = '' )
-		print ( subject.contents[0], subject.td.string )
-		subject.td.decompose ( ) # tdタグを除去
-		print ( "単位数 : ", end = '' )
-		print ( subject.contents[1], subject.td.string, "\n" )
-	"""
+	# for subject in Subjects:
+	# 	subject.td.decompose ( ) # tdタグを除去
+	# 	print ( "講義名 : ", end = '' )
+	# 	print ( subject.contents[0], subject.td.string )
+	# 	subject.td.decompose ( ) # tdタグを除去
+	# 	print ( "単位数 : ", end = '' )
+	# 	print ( subject.contents[1], subject.td.string, "\n" )
 
 	"""
 	#url
@@ -64,345 +113,7 @@ def scraping ( ):
 			print ( "\n" )
 		"""
 
-	#url
-	url = "http://timetable.sic.shibaura-it.ac.jp/table/2020/Timetable1L0113.html"
-
-	#get html
-	html = request.urlopen ( url )
-
-	#set BeautifulSoup
-	soup = BeautifulSoup ( html, "html.parser" )
-
-	# 月曜日
-	print ( "\n月曜日\n" )
-	#get ClassInfo
-	temp = soup.find_all ( "table", id = "mon" )
-
-	# 1限 ( row = 0 )
-	print ( "\n1限\n" )
-	for i in temp:
-		for k in i.find_all ( "td", row = "0" ):
-			for j in k.find_all ( "a", target = "_blank" ):
-				print ( j.string, "\n" )
-
-	# 2限 ( row = 1 )
-	print ( "\n2限\n" )
-	for i in temp:
-		for k in i.find_all ( "td", row = "1" ):
-			for j in k.find_all ( "a", target = "_blank" ):
-				print ( j.string, "\n" )
-
-	# 3限 ( row = 2 )
-	print ( "\n3限\n" )
-	for i in temp:
-		for k in i.find_all ( "td", row = "2" ):
-			for j in k.find_all ( "a", target = "_blank" ):
-				print ( j.string, "\n" )
-
-	# 4限 ( row = 3 )
-	print ( "\n4限\n" )
-	for i in temp:
-		for k in i.find_all ( "td", row = "3" ):
-			for j in k.find_all ( "a", target = "_blank" ):
-				print ( j.string, "\n" )
-
-	# 5限 ( row = 4 )
-	print ( "\n5限\n" )
-	for i in temp:
-		for k in i.find_all ( "td", row = "4" ):
-			for j in k.find_all ( "a", target = "_blank" ):
-				print ( j.string, "\n" )
-
-	# 6限 ( row = 5 )
-	print ( "\n6限\n" )
-	for i in temp:
-		for k in i.find_all ( "td", row = "5" ):
-			for j in k.find_all ( "a", target = "_blank" ):
-				print ( j.string, "\n" )
-
-	# 火曜日
-	print ( "\n火曜日\n" )
-	#get ClassInfo
-	temp = soup.find_all ( "table", id = "tue" )
-
-	# 1限 ( row = 0 )
-	print ( "\n1限\n" )
-	for i in temp:
-		for k in i.find_all ( "td", row = "0" ):
-			for j in k.find_all ( "a", target = "_blank" ):
-				print ( j.string, "\n" )
-
-	# 2限 ( row = 1 )
-	print ( "\n2限\n" )
-	for i in temp:
-		for k in i.find_all ( "td", row = "1" ):
-			for j in k.find_all ( "a", target = "_blank" ):
-				print ( j.string, "\n" )
-
-	# 3限 ( row = 2 )
-	print ( "\n3限\n" )
-	for i in temp:
-		for k in i.find_all ( "td", row = "2" ):
-			for j in k.find_all ( "a", target = "_blank" ):
-				print ( j.string, "\n" )
-
-	# 4限 ( row = 3 )
-	print ( "\n4限\n" )
-	for i in temp:
-		for k in i.find_all ( "td", row = "3" ):
-			for j in k.find_all ( "a", target = "_blank" ):
-				print ( j.string, "\n" )
-
-	# 5限 ( row = 4 )
-	print ( "\n5限\n" )
-	for i in temp:
-		for k in i.find_all ( "td", row = "4" ):
-			for j in k.find_all ( "a", target = "_blank" ):
-				print ( j.string, "\n" )
-
-	# 6限 ( row = 5 )
-	print ( "\n6限\n" )
-	for i in temp:
-		for k in i.find_all ( "td", row = "5" ):
-			for j in k.find_all ( "a", target = "_blank" ):
-				print ( j.string, "\n" )
-
-	# 水曜日
-	print ( "\n水曜日\n" )
-	#get ClassInfo
-	temp = soup.find_all ( "table", id = "wed" )
-
-	# 1限 ( row = 0 )
-	print ( "\n1限\n" )
-	for i in temp:
-		for k in i.find_all ( "td", row = "0" ):
-			for j in k.find_all ( "a", target = "_blank" ):
-				print ( j.string, "\n" )
-
-	# 2限 ( row = 1 )
-	print ( "\n2限\n" )
-	for i in temp:
-		for k in i.find_all ( "td", row = "1" ):
-			for j in k.find_all ( "a", target = "_blank" ):
-				print ( j.string, "\n" )
-
-	# 3限 ( row = 2 )
-	print ( "\n3限\n" )
-	for i in temp:
-		for k in i.find_all ( "td", row = "2" ):
-			for j in k.find_all ( "a", target = "_blank" ):
-				print ( j.string, "\n" )
-
-	# 4限 ( row = 3 )
-	print ( "\n4限\n" )
-	for i in temp:
-		for k in i.find_all ( "td", row = "3" ):
-			for j in k.find_all ( "a", target = "_blank" ):
-				print ( j.string, "\n" )
-
-	# 5限 ( row = 4 )
-	print ( "\n5限\n" )
-	for i in temp:
-		for k in i.find_all ( "td", row = "4" ):
-			for j in k.find_all ( "a", target = "_blank" ):
-				print ( j.string, "\n" )
-
-	# 6限 ( row = 5 )
-	print ( "\n6限\n" )
-	for i in temp:
-		for k in i.find_all ( "td", row = "5" ):
-			for j in k.find_all ( "a", target = "_blank" ):
-				print ( j.string, "\n" )
-
-	# 木曜日
-	print ( "\n木曜日\n" )
-	#get ClassInfo
-	temp = soup.find_all ( "table", id = "thu" )
-
-	# 1限 ( row = 0 )
-	print ( "\n1限\n" )
-	for i in temp:
-		for k in i.find_all ( "td", row = "0" ):
-			for j in k.find_all ( "a", target = "_blank" ):
-				print ( j.string, "\n" )
-
-	# 2限 ( row = 1 )
-	print ( "\n2限\n" )
-	for i in temp:
-		for k in i.find_all ( "td", row = "1" ):
-			for j in k.find_all ( "a", target = "_blank" ):
-				print ( j.string, "\n" )
-
-	# 3限 ( row = 2 )
-	print ( "\n3限\n" )
-	for i in temp:
-		for k in i.find_all ( "td", row = "2" ):
-			for j in k.find_all ( "a", target = "_blank" ):
-				print ( j.string, "\n" )
-
-	# 4限 ( row = 3 )
-	print ( "\n4限\n" )
-	for i in temp:
-		for k in i.find_all ( "td", row = "3" ):
-			for j in k.find_all ( "a", target = "_blank" ):
-				print ( j.string, "\n" )
-
-	# 5限 ( row = 4 )
-	print ( "\n5限\n" )
-	for i in temp:
-		for k in i.find_all ( "td", row = "4" ):
-			for j in k.find_all ( "a", target = "_blank" ):
-				print ( j.string, "\n" )
-
-	# 6限 ( row = 5 )
-	print ( "\n6限\n" )
-	for i in temp:
-		for k in i.find_all ( "td", row = "5" ):
-			for j in k.find_all ( "a", target = "_blank" ):
-				print ( j.string, "\n" )
-
-	# 金曜日
-	print ( "\n金曜日\n" )
-	#get ClassInfo
-	temp = soup.find_all ( "table", id = "fri" )
-
-	# 1限 ( row = 0 )
-	print ( "\n1限\n" )
-	for i in temp:
-		for k in i.find_all ( "td", row = "0" ):
-			for j in k.find_all ( "a", target = "_blank" ):
-				print ( j.string, "\n" )
-
-	# 2限 ( row = 1 )
-	print ( "\n2限\n" )
-	for i in temp:
-		for k in i.find_all ( "td", row = "1" ):
-			for j in k.find_all ( "a", target = "_blank" ):
-				print ( j.string, "\n" )
-
-	# 3限 ( row = 2 )
-	print ( "\n3限\n" )
-	for i in temp:
-		for k in i.find_all ( "td", row = "2" ):
-			for j in k.find_all ( "a", target = "_blank" ):
-				print ( j.string, "\n" )
-
-	# 4限 ( row = 3 )
-	print ( "\n4限\n" )
-	for i in temp:
-		for k in i.find_all ( "td", row = "3" ):
-			for j in k.find_all ( "a", target = "_blank" ):
-				print ( j.string, "\n" )
-
-	# 5限 ( row = 4 )
-	print ( "\n5限\n" )
-	for i in temp:
-		for k in i.find_all ( "td", row = "4" ):
-			for j in k.find_all ( "a", target = "_blank" ):
-				print ( j.string, "\n" )
-
-	# 6限 ( row = 5 )
-	print ( "\n6限\n" )
-	for i in temp:
-		for k in i.find_all ( "td", row = "5" ):
-			for j in k.find_all ( "a", target = "_blank" ):
-				print ( j.string, "\n" )
-
-	# 土曜日
-	print ( "\n土曜日\n" )
-	#get ClassInfo
-	temp = soup.find_all ( "table", id = "sat" )
-
-	# 1限 ( row = 0 )
-	print ( "\n1限\n" )
-	for i in temp:
-		for k in i.find_all ( "td", row = "0" ):
-			for j in k.find_all ( "a", target = "_blank" ):
-				print ( j.string, "\n" )
-
-	# 2限 ( row = 1 )
-	print ( "\n2限\n" )
-	for i in temp:
-		for k in i.find_all ( "td", row = "1" ):
-			for j in k.find_all ( "a", target = "_blank" ):
-				print ( j.string, "\n" )
-
-	# 3限 ( row = 2 )
-	print ( "\n3限\n" )
-	for i in temp:
-		for k in i.find_all ( "td", row = "2" ):
-			for j in k.find_all ( "a", target = "_blank" ):
-				print ( j.string, "\n" )
-
-	# 4限 ( row = 3 )
-	print ( "\n4限\n" )
-	for i in temp:
-		for k in i.find_all ( "td", row = "3" ):
-			for j in k.find_all ( "a", target = "_blank" ):
-				print ( j.string, "\n" )
-
-	# 5限 ( row = 4 )
-	print ( "\n5限\n" )
-	for i in temp:
-		for k in i.find_all ( "td", row = "4" ):
-			for j in k.find_all ( "a", target = "_blank" ):
-				print ( j.string, "\n" )
-
-	# 6限 ( row = 5 )
-	print ( "\n6限\n" )
-	for i in temp:
-		for k in i.find_all ( "td", row = "5" ):
-			for j in k.find_all ( "a", target = "_blank" ):
-				print ( j.string, "\n" )
-
-	# その他
-	print ( "\nその他\n" )
-	#get ClassInfo
-	temp = soup.find_all ( "table", id = "oth" )
-
-	# 1限 ( row = 0 )
-	print ( "\n1限\n" )
-	for i in temp:
-		for k in i.find_all ( "td", row = "0" ):
-			for j in k.find_all ( "a", target = "_blank" ):
-				print ( j.string, "\n" )
-
-	# 2限 ( row = 1 )
-	print ( "\n2限\n" )
-	for i in temp:
-		for k in i.find_all ( "td", row = "1" ):
-			for j in k.find_all ( "a", target = "_blank" ):
-				print ( j.string, "\n" )
-
-	# 3限 ( row = 2 )
-	print ( "\n3限\n" )
-	for i in temp:
-		for k in i.find_all ( "td", row = "2" ):
-			for j in k.find_all ( "a", target = "_blank" ):
-				print ( j.string, "\n" )
-
-	# 4限 ( row = 3 )
-	print ( "\n4限\n" )
-	for i in temp:
-		for k in i.find_all ( "td", row = "3" ):
-			for j in k.find_all ( "a", target = "_blank" ):
-				print ( j.string, "\n" )
-
-	# 5限 ( row = 4 )
-	print ( "\n5限\n" )
-	for i in temp:
-		for k in i.find_all ( "td", row = "4" ):
-			for j in k.find_all ( "a", target = "_blank" ):
-				print ( j.string, "\n" )
-
-	# 6限 ( row = 5 )
-	print ( "\n6限\n" )
-	for i in temp:
-		for k in i.find_all ( "td", row = "5" ):
-			for j in k.find_all ( "a", target = "_blank" ):
-				print ( j.string, "\n" )
-
-
 
 if __name__ == "__main__":
-	scraping ( )
+	#Time_Scraping ( )
+	Syllabus_Scraping ( )
