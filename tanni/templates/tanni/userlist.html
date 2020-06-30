@@ -44,7 +44,7 @@
             <tbody>
                 {% for usr in user_all %}
                 <tr>
-                    <td>{{ usr.student_id }} </td>
+                    <td><a href="{% url 'tanni:userlist' usr.student_id %}" class="text-decoration-none">{{ usr.student_id }}</a></td>
                     <td>{{ usr.username }} </td>
                 </tr>
                 {% endfor %}
