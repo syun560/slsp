@@ -1,0 +1,39 @@
+{% extends 'account/base.html' %}
+{% block content %}
+
+<div class="jumbotron text-center">
+    <h1>スラサポ</h1>
+    <p>スクール・ライフ・サポート</p> 
+</div>
+  
+<div class="container">
+    <div class="col-md-6 offset-md-3">
+        <h2 style="text-align:center">パスワード再設定</h2>
+        <div class="card">
+            <div class="card-body">
+                <form action="" method="POST">
+                    {{ form.non_field_errors }}
+                    {% for field in form %}
+                    {{ field }}
+                    {{ field.errors }}
+                    {% if forloop.last %}
+                        {% else %}
+                        <br>
+                    {% endif %}
+                    {% endfor %}
+                    <hr>
+                    <button type="submit" class="btn btn-primary" >ログイン</button>
+                    <input type="hidden" name="next" value="{{ next }}" />
+                    {% csrf_token %}
+                </form>
+            </div>
+        </div>
+        <!--<button type="submit" class="btn btn-primary">新規登録</button>-->
+        <br>
+        <p class="text-center">
+            <a href="#" class="text-primary">パスワードを忘れた</a>
+        </p>
+    </div>
+</div>
+
+{% endblock %}
