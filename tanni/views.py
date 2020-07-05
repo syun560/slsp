@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 
 from account.models import User
 from .models import UserTimeTable, Course
+from .scraping import *
 
 def getTimeTable(id):
     # ログインユーザの履修している科目を取得
@@ -56,3 +57,35 @@ def sim(request):
         
     }
     return render(request, 'tanni/sim.html', params)
+
+
+@login_required
+def scraping(request):
+    # time_scraping()
+
+    cnt = ccnt = 0
+    url_list = [
+        'http://syllabus.sic.shibaura-it.ac.jp/syllabus/2018/MatrixL01131.html.ja', # 専門
+        # 'http://syllabus.sic.shibaura-it.ac.jp/syllabus/2018/MatrixL01161.html.ja', # 共通数理
+        # 'http://syllabus.sic.shibaura-it.ac.jp/syllabus/2018/MatrixL01162.html.ja', # 言語・情報系
+        # 'http://syllabus.sic.shibaura-it.ac.jp/syllabus/2018/MatrixL01163.html.ja', # 人文社会系教養
+        # 'http://syllabus.sic.shibaura-it.ac.jp/syllabus/2018/MatrixL01164.html.ja', # 共通健康
+        # 'http://syllabus.sic.shibaura-it.ac.jp/syllabus/2018/MatrixL01165.html.ja', # 共通工学系教養
+        # 'http://syllabus.sic.shibaura-it.ac.jp/syllabus/2018/MatrixL01171.html.ja', # 全学共通科目群
+    ]
+    cnt += syllabus_scraping(url_list[0], "専門")
+    # cnt += syllabus_scraping(url_list[1], "共通数理")
+    # cnt += syllabus_scraping(url_list[2], "言語・情報系")
+    # cnt += syllabus_scraping(url_list[3], "人文社会系教養")
+    # cnt += syllabus_scraping(url_list[4], "共通健康")
+    # cnt += syllabus_scraping(url_list[5], "共通工学系教養")
+    # cnt += syllabus_scraping(url_list[6], "全学共通科目群")
+
+    ccnt += time_scraping("http://timetable.sic.shibaura-it.ac.jp/table/2020/Timetable1L0113.html")
+
+    params = {
+        'url_list': url_list,
+        'cnt': cnt,
+        'ccnt': ccnt
+    }
+    return render(request, 'tanni/scraping.html', params)
