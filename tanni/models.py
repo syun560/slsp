@@ -6,7 +6,8 @@ class Subject(models.Model):
     title = models.CharField(verbose_name='科目名', max_length=64)
     group = models.CharField(verbose_name='分類', max_length=64)
     credit = models.IntegerField(verbose_name='単位数')
-    required = models.CharField(verbose_name='必修', max_length=64)
+    unit = models.IntegerField(verbose_name='コマ数')
+    required = models.CharField(verbose_name='必修', default=1, max_length=64)
 
     def __str__(self):
         return self.title
