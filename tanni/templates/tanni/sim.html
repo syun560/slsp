@@ -1,159 +1,164 @@
-<html>
-
-<head>
+{% extends 'tanni/base.html' %}
+{% block style %}
 <style>
 * {
   box-sizing: border-box;
 }
 
 .right {
-  float: right;
-  width: 125px;
-  //border: 3px solid #73AD21;
-  padding: 5px;
+	float: right;
+	width: 125px;
+	border: 3px solid #73AD21;
+	padding: 5px;
 }
 .center {
-  margin: auto;
-  width: 50%;
-  text-align: center;
-  border: 0px solid green;
-  padding: 10px;
+	margin: auto;
+	width: 50%;
+	text-align: center;
+	border: 0px solid green;
+	padding: 10px;
 }
 table.a {
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 100%;
+	font-family: arial, sans-serif;
+	border-collapse: collapse;
+	width: 100%;
 }
 
 table.b { 
-  font-family: arial, sans-serif;
-  border-collapse: collapse;
-  width: 30%;
+	font-family: arial, sans-serif;
+	border-collapse: collapse;
+	width: 30%;
 }
 
 td, th {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
+	border: 1px solid #dddddd;
+	text-align: left;
+	padding: 8px;
 }
 
 nav {
-  float: left;
-  width: 50%;
+	float: left;
+	width: 50%;
 }
 
 article {
-  float: left;
-  width: 50%;
-}
+	float: left;
+	width: 50%;
+}	
 
 section:after {
-  content: "";
-  display: table;
-  clear: both;
+	content: "";
+	display: table;
+	clear: both;
 }
 
 #myDIV {
-  width: 100%;
-  padding: 0px 0;
-  text-align: left;
-  background-color: none;
-  margin-top: 0px;
+	width: 100%;
+	padding: 0px 0;
+	text-align: left;
+	background-color: none;
+	margin-top: 0px;
 }
 </style>
+{% endblock %}
 
-</head>
-<body>
-<div class="right">
-<p><a href="http://www.google.com">ホームへ戻る</a></p>
-</div>
-卒業に必要な単位のシミュレーションを行います。<br>
-＜取得済み単位＞<br>
-・スラサポ利用前（２０１９年度後期以前）<br>
-科目群ごとに取得した単位数を入力し、確定をクリックしてください。<br>
+{% block content %}
+<p>卒業に必要な単位のシミュレーションを行います。</p>
+<p>＜取得済み単位＞</p>
+<p>スラサポ利用前（２０１９年度後期以前）</p>
+<p>科目群ごとに取得した単位数を入力し、確定をクリックしてください。</p>
 <table class="a">
-<thread>
-<th>科目群</th><th>単位数</th>
-</thread>
-<tr>
-<td>専門</td><td><input type="number" id="s1" name="spec" min="0" max="99"  value="0"></td>
-</tr>
-<tr>
-<td>共通数理</td><td><input type="number" id="s2" name="math" min="0" max="99"  value="0"></td>
-</tr>
-<tr>
-<td>言語・情報系</td><td><input type="number" id="s3" name="lang" min="0" max="99"  value="0"></td>
-</tr>
-<tr>
-<td>人文社会系教養</td><td><input type="number" id="s4" name="social" min="0" max="99" value="0"></td>
-</tr>
-<tr>
-<td>共通健康</td><td><input type="number" id="s5" name="health" min="0" max="99" value="0"></td>
-</tr>
-<tr>
-<td>共通工学系教養</td><td><input type="number" id="s6" name="engine" min="0" max="99" value="0"></td>
-</tr>
+	<thread>
+		<th>科目群</th><th>単位数</th>
+	</thread>
+	<tr>
+		<td>専門</td><td><input type="number" id="s1" name="spec" min="0" max="99"  value="0"></td>
+	</tr>
+	<tr>
+		<td>共通数理</td><td><input type="number" id="s2" name="math" min="0" max="99"  value="0"></td>
+	</tr>
+	<tr>
+		<td>言語・情報系</td><td><input type="number" id="s3" name="lang" min="0" max="99"  value="0"></td>
+	</tr>
+	<tr>
+		<td>人文社会系教養</td><td><input type="number" id="s4" name="social" min="0" max="99" value="0"></td>
+	</tr>
+	<tr>
+		<td>共通健康</td><td><input type="number" id="s5" name="health" min="0" max="99" value="0"></td>
+	</tr>
+	<tr>
+		<td>共通工学系教養</td><td><input type="number" id="s6" name="engine" min="0" max="99" value="0"></td>
+	</tr>
 </table>
-<div class="center"><button onclick="myFunction();calculate()">確定</button></div>
+
+<div class="center">
+	<button onclick="myFunction();calculate()">確定</button>
+</div>
 
 <section>
-<div id="myDIV" style="display:none"><p>
-<nav>
-＜スラサポ登録分＞
-	<table class="b">
-		<tr>
-			<td>専門</td><td></td>
-		</tr>
-		<tr>
-			<td>共通数理</td><td></td>
-		</tr>
-		<tr>
-			<td>言語・情報系</td><td></td>
-		</tr>
-		<tr>
-			<td>人文社会系教養</td><td></td>
-		</tr>
-		<tr>
-			<td>共通健康</td><td></td>
-		</tr>
-		<tr>
-			<td>共通工学系教養</td><td></td>
-		</tr>
-		<tr>
-			<td>取得済み単位合計</td><td><a id=totalcrd></a></td>
-		</tr>
-	</table>
-</nav>
-</p></div>
+
+<div id="myDIV" style="display:none">
+	<p><nav>
+	＜スラサポ登録分＞
+		<table class="b">
+			<tr>
+				<td>専門</td><td></td>
+			</tr>
+			<tr>
+				<td>共通数理</td><td></td>
+			</tr>
+			<tr>
+				<td>言語・情報系</td><td></td>
+			</tr>
+			<tr>
+				<td>人文社会系教養</td><td></td>
+			</tr>
+			<tr>
+				<td>共通健康</td><td></td>
+			</tr>
+			<tr>
+				<td>共通工学系教養</td><td></td>
+			</tr>
+			<tr>
+				<td>取得済み単位合計</td><td><a id=totalcrd></a></td>
+			</tr>
+		</table>
+	</nav></p>
+</div>
+
 <div id="myDIV2" style="display:none"><p>
-<article>
-＜卒業に必要な残りの単位＞
-	<table class="b">
-		<tr>
-			<td>専門</td><td></td>
-		</tr>
-		<tr>
-			<td>共通数理</td><td></td>
-		</tr>
-		<tr>
-			<td>言語・情報系</td><td></td>
-		</tr>
-		<tr>
-			<td>人文社会系教養</td><td></td>
-		</tr>
-		<tr>
-			<td>共通健康</td><td></td>
-		</tr>
-		<tr>
-			<td>共通工学系教養</td><td></td>
-		</tr>
-		<tr>
-			<td>卒業に必要な残りの単位合計</td><td></td>
-		</tr>
-	</table>
-</article>
+	<article>
+	＜卒業に必要な残りの単位＞
+		<table class="b">
+			<tr>
+				<td>専門</td><td></td>
+			</tr>
+			<tr>
+				<td>共通数理</td><td></td>
+			</tr>
+			<tr>
+				<td>言語・情報系</td><td></td>
+			</tr>
+			<tr>
+				<td>人文社会系教養</td><td></td>
+			</tr>
+			<tr>
+				<td>共通健康</td><td></td>
+			</tr>
+			<tr>
+				<td>共通工学系教養</td><td></td>
+			</tr>
+			<tr>
+				<td>卒業に必要な残りの単位合計</td><td></td>
+			</tr>
+		</table>
+	</article>
 </p></div>
+
 </section>
+{% endblock %}
+
+{% block script %}
 <script>
 var totalcrd = 0;
 var s = 
@@ -191,6 +196,4 @@ function creditLoad2(s){
 	$("myDIV2").load(url);
 }
 </script>
-
-</body>
-</html>
+{% endblock %}
