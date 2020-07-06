@@ -1,6 +1,11 @@
-{% extends 'tanni/base.html' %}
-{% block style %}
+<html>
+
+<head>
 <style>
+* {
+  box-sizing: border-box;
+}
+
 .right {
   float: right;
   width: 225px;
@@ -15,7 +20,7 @@ table.a {
 table.b {
   font-family: arial, sans-serif;
   border-collapse: collapse;
-  width: 10%;
+  width: 30%;
 }
 
 td, th {
@@ -23,108 +28,166 @@ td, th {
   text-align: left;
   padding: 8px;
 }
+
+nav {
+  float: left;
+  width: 30%;
+}
+
+article {
+  float: left;
+  width: 70%;
+}
+
+section:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+
 #myDIV {
   width: 100%;
-  padding: 50px 0;
+  padding: 0px 0;
   text-align: left;
   background-color: none;
-  margin-top: 20px;
+  margin-top: 0px;
 }
 
 #myDIV2 {
   width: 100%;
-  padding: 50px 0;
+  padding: 0px 0;
   text-align: left;
   background-color: none;
-  margin-top: 20px;
+  margin-top: 0px;
 }
 
 #myDIV3 {
   width: 100%;
-  padding: 50px 0;
-  text-align: left;
+  padding: 0px 0;
+  text-align: right;
   background-color: none;
-  margin-top: 20px;
+  margin-top: 0px;
 }
 
 .selected {
     color: red;
 }
 </style>
-{% endblock %}
-{% block content %}
-<a id=AccountID></a>としてログインしています。<br>
+
+</head>
+<body>
+<div class="right">
+<p><a href="http://www.google.com">登録を中止しホーム画面へ</a></p>
+</div>
 科目の登録・変更を行います。<br>
 下の時間割から登録・変更したい時間をクリックしてください。<br>
 <table class="a" id="display-table">
-	<thead>
-		<th></th><th>月</th><th>火</th><th>水</th><th>木</th><th>金</th><th>土</th>
-	</thead>
-	<tbody>
-		{% for jk in time_table %}
-        <tr>
-            <th scope="row">{{ forloop.counter }}限</th>
-            {% for j in jk %}
-                <td>{{ j }}</td>
-            {% endfor %}
-        </tr>
-        {% endfor %}
-	</tbody>
+<thead>
+<th></th><th>月</th><th>火</th><th>水</th><th>木</th><th>金</th><th>土</th>
+</thead>
+<tbody>
+<tr>
+<th>9:00-10:40</th><td>bla</td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<th>10:50-12:30</th><td></td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<th>13:10-14:50</th><td></td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<th>15:00-16:40</th><td></td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+<tr>
+<th>16:50-18:30</th><td></td><td></td><td></td><td></td><td></td><td></td>
+</tr>
+</tbody>
 </table>
+<div id="myDIV5" style="display:none"><p>
+	選択中：<a id=week></a>曜<a id=period></a>限(現在登録科目：<a id=cSubjID></a>)<br>
+		<button onclick="myFunction();myFunction5();">変更する</button>
+		<form action="">
+			<input type="hidden" id="week" name="曜日">
+			<input type="hidden" id="period" name="時限">
+			<input type="submit" value="削除する"><br><br>
+		</form>
+</p></div>
+<section>
+<nav>
 <div id="myDIV" style="display:none"><p>
-	選択中：<a id=choseID></a>(現在登録科目：<a id=subjID></a>)<br>
-	科目群を選択してください。<br>
-	<table class="b" id="display-table-2">
-		<tr>
-			<td>専門</td>
-		</tr>
-		<tr>
-			<td>共通数理</td>
-		</tr>
-		<tr>
-			<td>言語・情報系</td>
-		</tr>
-		<tr>
-			<td>人文社会系教養</td>
-		</tr>
-		<tr>
-			<td>共通健康</td>
-		</tr>
-		<tr>
-			<td>共通工学系教養</td>
-		</tr>
-		</table>
-		</p>
-</div>
-	<div id="myDIV2" style="display:none"><p>
-	追加したい科目名をクリックしてください。
-	<table class="a" id="display-table-3">
-		<thead>
-			<th>科目群</th><th>科目名</th><th>教員</th><th>キャンパス</th><th>単位</th>
-		</thead>
-		<tbody>
-		<tr>
-		<td></td><td>bla</td><td></td><td></td><td></td>
-		</tr>
-		<tr>
-		><td></td><td></td><td></td><td></td><td></td>
-		</tr>
-	</tbody>
+選択中：<a id=week></a>曜<a id=period></a>限(現在登録科目：<a id=cSubjID></a>)<br>
+科目群を選択してください。<br>
+<table class="b" id="display-table-2">
+<tr>
+<td>専門</td>
+</tr>
+<tr>
+<td>共通数理</td>
+</tr>
+<tr>
+<td>言語・情報系</td>
+</tr>
+<tr>
+<td>人文社会系教養</td>
+</tr>
+<tr>
+<td>共通健康</td>
+</tr>
+<tr>
+<td>共通工学系教養</td>
+</tr>
 </table>
 </p></div>
+</nav>
+<article>
+<div id="myDIV2" style="display:none"><p>
+追加したい科目名をクリックしてください。
+<div id="myDIV4"><p>
+<table class="a" id="display-table-3">
+<thead>
+<th>科目群</th><th>科目名</th><th>教員</th><th>キャンパス</th><th>単位</th>
+</thead>
+<tbody>
+<tr>
+<td>bla</td><td>ba</td><td>b</td><td>a</td><td>1</td>
+</tr>
+<tr>
+<td></td><td></td><td></td><td></td><td></td>
+</tr>
+</tbody>
+</table>
+</p></div>
+</p></div>
+</article>
+</section>
 <div id="myDIV3" style="display:none"><p>
-<br><br>（選択中：<a id="choseID2"></a>）<a href="http://www.google.com">追加する</a><br><br>
+<br><br>（選択中：<a id=nSubjID></a>）
+<form action="">
+	<input type="hidden" id="week" name="曜日">
+	<input type="hidden" id="period" name="時限">
+	<input type="hidden" id="nSubjGrpID" name="科目群名">
+	<input type="hidden" id="nSubjID" name="科目名">
+	<input type="hidden" id="tchr" name="教員">
+	<input type="hidden" id="cmp" name="キャンパス">
+	<input type="hidden" id="crd" name="単位">
+	<input type="submit" value="追加する"><br><br>
+</form>
 </p></div>
 <script>
-var AccountID = "";
-document.getElementById("AccountID").innerHTML = "AB12345";
 var CF = 0;
-var CF2 = 0;
+var CF2 = [0,0,0,0,0,0];
 var SF = 0;
 var CF3 = 0;
-var choseID = "";
-var choseID2 = "";
-var subjID = "";
+var week = "";
+var period = 0;
+var nSubjGrpID = "";
+var nSubjID = "";
+var tchr = "";
+var cmp = "";
+var crd = 0;
+var cSubjID = "";
+var ZF = (currentValue) => currentValue == 0;
 function myFunction() {
   var x = document.getElementById("myDIV");
   if (x.style.display === "none") {
@@ -155,6 +218,24 @@ function myFunction3() {
   }
 }
 
+function myFunction5(){
+  var x = document.getElementById("myDIV5");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  }
+  else{
+  x.style.display = "none";
+  }
+}
+
+//function subjLoad(CF2){//数字じゃなくて文字を代数にする場合＞CF2->table.rows[rowId].innerHTML
+	/* CF2[]=科目群、0=専門、1=共通数理… */
+//	url = /* お願いします */;
+//	$("myDIV4").load(/* お願いします */);
+//}
+
+
+
 choose1();
 function choose1() {
 	
@@ -173,8 +254,15 @@ function choose1() {
 			if (CellSelected.style.backgroundColor === "yellow"){
 				CellSelected.style.backgroundColor = "";
 				CellSelected.classList.remove('selected');
+				if(document.getElementById("myDIV").style.display === "block")
 				myFunction();
+				else
+				myFunction5();
 				CF = 0;
+				if(SF === 1)
+					choose2();
+				if(CF3 === 1)
+					choose3();
 				return;
 			}
 			
@@ -187,13 +275,17 @@ function choose1() {
             CellSelected.className += " selected";
 			rowId += 1;
 			if(table.rows[rowId].cells[cellId+1].innerHTML === "")
-				document.getElementById("subjID").innerHTML = "無";
+				document.getElementById("cSubjID").innerHTML = "無";
 			else {
-				document.getElementById("subjID").innerHTML = table.rows[rowId].cells[cellId+1].innerHTML;
+				document.getElementById("cSubjID").innerHTML = table.rows[rowId].cells[cellId+1].innerHTML;
 			}
-			document.getElementById("choseID").innerHTML = table.rows[0].cells[cellId+1].innerHTML + "曜" + rowId + "限";
+			document.getElementById("week").innerHTML = table.rows[0].cells[cellId+1].innerHTML;
+			document.getElementById("period").innerHTML = rowId;
 			if(CF === 0){
+				if(document.getElementById("cSubjID").innerHTML === "無")
 				myFunction();
+				else
+				myFunction5();
 				CF = 1;
 			}
 		}
@@ -204,7 +296,19 @@ choose2();
 function choose2(){
 
 	var table = document.getElementById('display-table-2');
-		var cells = table.getElementsByTagName('td');
+	var cells = table.getElementsByTagName('td');
+	var rows = table.getElementsByTagName('tr');
+		
+		if(CF === 0 && SF === 1){
+			for(var i = 0; i < rows.length; i++){
+				rows[i].style.backgroundColor = "";
+				rows[i].classList.remove('selected');
+			}
+			CF2.fill(0);
+			SF = 0;
+			myFunction2();
+			return;
+		}
 		
 		for (var i = 0; i < cells.length; i++) {
 			var cell = cells[i];
@@ -216,8 +320,8 @@ function choose2(){
 				if (rowSelected.style.backgroundColor === "yellow"){
 				rowSelected.style.backgroundColor = "";
 				rowSelected.classList.remove('selected');
-				CF2 -=1;
-				if(CF2 === 0 && SF === 1){
+				CF2[rowId] -=1;
+				if(CF2.every(ZF) === true && SF === 1){
 					myFunction2();
 					SF = 0;
 				}
@@ -225,8 +329,9 @@ function choose2(){
 				}
 			rowSelected.style.backgroundColor = "yellow";
             rowSelected.className += " selected";
-			CF2 += 1;
-			if(CF2 > 0 && SF === 0){
+			CF2[rowId] += 1;
+			//subjLoad(CF2);//数字じゃなくて文字を代数にする場合＞CF2->table.rows[rowId].innerHTML
+			if(CF2.every(ZF) === false && SF === 0){
 				myFunction2();
 				SF = 1;
 			}
@@ -238,8 +343,19 @@ choose3();
 function choose3(){
 
 	var table = document.getElementById('display-table-3');
-		var cells = table.getElementsByTagName('td');
-		
+	var cells = table.getElementsByTagName('td');
+	var rows = table.getElementsByTagName('tr');
+	
+	if(CF === 0 && CF3 === 1){
+		for(var i = 0; i < rows.length; i++){
+			rows[i].style.backgroundColor = "";
+			rows[i].classList.remove('selected');
+		}
+		CF3 = 0;
+		myFunction3();
+		return;
+	}
+	
 		for (var i = 0; i < cells.length; i++) {
 			var cell = cells[i];
 			cell.onclick = function () {
@@ -262,14 +378,21 @@ function choose3(){
 				
 			rowSelected.style.backgroundColor = "yellow";
             rowSelected.className += " selected";
-			document.getElementById("choseID2").innerHTML = table.rows[rowId].cells[1].innerHTML;
+			
 			if(CF3 === 0){
 				myFunction3();
 				CF3 = 1;
 			}
+			document.getElementById("nSubjGrpID").innerHTML = table.rows[rowId].cells[0].innerHTML;
+			document.getElementById("nSubjID").innerHTML = table.rows[rowId].cells[1].innerHTML;
+			document.getElementById("tchr").innerHTML = table.rows[rowId].cells[2].innerHTML;
+			document.getElementById("cmp").innerHTML = table.rows[rowId].cells[3].innerHTML;
+			document.getElementById("crd").innerHTML = table.rows[rowId].cells[4].innerHTML;
 		}
 	}
 }
 
 </script>
-{% endblock %}
+
+</body>
+</html>
