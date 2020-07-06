@@ -10,4 +10,5 @@ urlpatterns = [
     path('user/<student_id>', views.userinfo, name='userlist'),
     path('reg/', views.reg, name='reg'),
     path('sim/', views.sim, name='sim'),
+    path('scraping/', views.scraping, name='scraping'),
 ]

@@ -32,7 +32,7 @@
             </div>
             <!--ここにユーザー名を入れる-->
             <h6 class="text-white text-nowrap">ようこそAA00000 /&nbsp;</h6>
-            <a href="#" class="text-primary text-nowrap">ログアウト</a>
+            <a href="{% url 'account:logout' %}" class="text-primary text-nowrap">ログアウト</a>
         </nav>
         <div class="container mt-4">
             {% block content %}{% endblock %}
