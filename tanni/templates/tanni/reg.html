@@ -93,7 +93,7 @@ section:after {
 </table>
 
 <div id="myDIV5" style="display:none"><p>
-	選択中：<a id=week></a>曜<a id=period></a>限(現在登録科目：<a id=cSubjID></a>)<br>
+	選択中：<a id=week></a>曜<a id=period></a>限(現在登録科目：<a id=cSubjId></a>)<br>
 		<button onclick="myFunction();myFunction5();">変更する</button>
 		<form action="">
 			<input type="hidden" id="week" name="曜日">
@@ -273,7 +273,7 @@ function choose1() {
 			document.getElementById("week").innerHTML = table.rows[0].cells[cellId+1].innerHTML;
 			document.getElementById("period").innerHTML = rowId;
 			if(CF === 0){
-				if(document.getElementById("cSubjID").innerHTML === "無")
+				if(document.getElementById("cSubjId").innerHTML === "無")
 				myFunction();
 				else
 				myFunction5();
