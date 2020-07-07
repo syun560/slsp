@@ -1,15 +1,6 @@
 {% extends 'tanni/base.html' %}
 {% block style %}
 <style>
-* {
-  box-sizing: border-box;
-}
-
-.right {
-  float: right;
-  width: 225px;
-  padding: 5px;
-}
 table.a {
   font-family: arial, sans-serif;
   border-collapse: collapse;
@@ -19,7 +10,7 @@ table.a {
 table.b {
   font-family: arial, sans-serif;
   border-collapse: collapse;
-  width: 10%;
+  width: 40%;
 }
 
 td, th {
@@ -28,20 +19,17 @@ td, th {
   padding: 8px;
 }
 
-nav {
-  float: left;
-  width: 30%;
+.wrapper{
+  display:flex;
+  flex-direction:row;
 }
 
-article {
-  float: left;
-  width: 70%;
+.right{
+	width:60%;
 }
 
-section:after {
-  content: "";
-  display: table;
-  clear: both;
+.left{
+	width:40%;
 }
 
 #myDIV {
@@ -92,8 +80,11 @@ section:after {
 	</tbody>
 </table>
 
-<div id="myDIV5" style="display:none"><p>
+<div id="myDIV6" style="display:none"><p>
 	選択中：<a id=week></a>曜<a id=period></a>限(現在登録科目：<a id=cSubjId></a>)<br>
+</p></div>
+
+<div id="myDIV5" style="display:none"><p>
 		<button onclick="myFunction();myFunction5();">変更する</button>
 		<form action="">
 			<input type="hidden" id="week" name="曜日">
@@ -103,10 +94,9 @@ section:after {
 </p></div>
 
 
-<section>
-<nav>
+<div class="wrapper">
+<div class='left'>
 	<div id="myDIV" style="display:none"><p>
-		選択中：<a id=week></a>曜<a id=period></a>限(現在登録科目：<a id=cSubjId></a>)<br>
 		科目群を選択してください。<br>
 		<table class="b" id="display-table-2">
 			<tr>
@@ -129,8 +119,8 @@ section:after {
 			</tr>
 		</table>
 	</p></div>
-</nav>
-<article>
+</div>
+<div class='right'>
 	<div id="myDIV2" style="display:none"><p>
 	追加したい科目名をクリックしてください。
 	<div id="myDIV4"><p>
@@ -149,8 +139,9 @@ section:after {
 	</table>
 	</p></div>
 	</p></div>
-</article>
-</section>
+</div>
+</div>
+
 <div id="myDIV3" style="display:none"><p>
 	<br><br>（選択中：<a id=nSubjId></a>）
 		<form action="">
@@ -220,11 +211,21 @@ function myFunction5(){
   }
 }
 
-function subjLoad(CF2){
+function myFunction6(){
+  var x = document.getElementById("myDIV6");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  }
+  else{
+  x.style.display = "none";
+  }
+}
+
+//function subjLoad(CF2){
 	/* CF2[]=科目群、0=専門、1=共通数理… */
-	url = /* お願いします */;
-	$("myDIV4").load(url);
-}	
+//	url = /* お願いします */;
+//	$("myDIV4").load(url);
+//}	
 	
 
 choose1();
@@ -245,10 +246,13 @@ function choose1() {
 			if (CellSelected.style.backgroundColor === "yellow"){
 				CellSelected.style.backgroundColor = "";
 				CellSelected.classList.remove('selected');
-				if(document.getElementById("myDIV").style.display === "block")
+				if(document.getElementById("myDIV").style.display === "block"){
 				myFunction();
-				else
+				}
+				else{
 				myFunction5();
+				}
+				myFunction6();
 				CF = 0;
 				if(SF === 1)
 					choose2();
@@ -273,10 +277,13 @@ function choose1() {
 			document.getElementById("week").innerHTML = table.rows[0].cells[cellId+1].innerHTML;
 			document.getElementById("period").innerHTML = rowId;
 			if(CF === 0){
-				if(document.getElementById("cSubjId").innerHTML === "無")
+				if(document.getElementById("cSubjId").innerHTML === "無"){
 				myFunction();
-				else
+				}
+				else{
 				myFunction5();
+				}
+				myFunction6();
 				CF = 1;
 			}
 		}
@@ -321,7 +328,7 @@ function choose2(){
 			rowSelected.style.backgroundColor = "yellow";
 			rowSelected.className += " selected";
 			CF2[rowId] += 1;
-			subjLoad(CF2);
+			//subjLoad(CF2);
 			if(CF2.every(ZF) === false && SF === 0){
 				myFunction2();
 				SF = 1;

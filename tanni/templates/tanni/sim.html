@@ -1,16 +1,6 @@
 {% extends 'tanni/base.html' %}
 {% block style %}
 <style>
-* {
-  box-sizing: border-box;
-}
-
-.right {
-	float: right;
-	width: 125px;
-	border: 3px solid #73AD21;
-	padding: 5px;
-}
 .center {
 	margin: auto;
 	width: 50%;
@@ -36,20 +26,17 @@ td, th {
 	padding: 8px;
 }
 
-nav {
-	float: left;
-	width: 50%;
+.wrapper{
+  display:flex;
+  flex-direction:row;
 }
 
-article {
-	float: left;
-	width: 50%;
-}	
+.right{
+	width:50%;
+}
 
-section:after {
-	content: "";
-	display: table;
-	clear: both;
+.left{
+	width:50%;
 }
 
 #myDIV {
@@ -95,10 +82,9 @@ section:after {
 	<button onclick="myFunction();calculate()">確定</button>
 </div>
 
-<section>
-
-<div id="myDIV" style="display:none">
-	<p><nav>
+<div class="wrapper">
+<div class='left'>
+<div id="myDIV" style="display:none"><p>
 	＜スラサポ登録分＞
 		<table class="b">
 			<tr>
@@ -123,11 +109,13 @@ section:after {
 				<td>取得済み単位合計</td><td><a id=totalcrd></a></td>
 			</tr>
 		</table>
-	</nav></p>
+	</p>
+</div>
 </div>
 
+<div class='right'>
 <div id="myDIV2" style="display:none"><p>
-	<article>
+
 	＜卒業に必要な残りの単位＞
 		<table class="b">
 			<tr>
@@ -152,10 +140,11 @@ section:after {
 				<td>卒業に必要な残りの単位合計</td><td></td>
 			</tr>
 		</table>
-	</article>
-</p></div>
 
-</section>
+</p></div>
+</div>
+</div>
+
 {% endblock %}
 
 {% block script %}
@@ -186,14 +175,14 @@ function calculate(){
   document.getElementById("totalcrd").innerHTML = sum;
 }
 
-function creditLoad(s){
-	url = /* お願いします */;
-	$("myDIV").load(url);
-}
+//function creditLoad(s){
+//	url = /* お願いします */;
+//	$("myDIV").load(url);
+//}
 
-function creditLoad2(s){
-	url = /* お願いします */;
-	$("myDIV2").load(url);
-}
+//function creditLoad2(s){
+//	url = /* お願いします */;
+//	$("myDIV2").load(url);
+//}
 </script>
 {% endblock %}
