@@ -1,7 +1,7 @@
 """
 File Name : scraping.py
 Designer : Kaito Akizuki
-Date : 2020/07/01, pm9:50
+Date : 2020/07/07, 15:21
 """
 
 from urllib import request
@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 from .models import Subject, Course
 
 def time_scraping(url):
-	# get html
+    # get html
 	html = request.urlopen(url)
 
 	# set BeautifulSoup
@@ -98,8 +98,7 @@ def syllabus_scraping(url, group):
 
 	return cnt
 
-	#url
-	url = "http://syllabus.sic.shibaura-it.ac.jp/syllabus/2018/MatrixL01161.html.ja"
+def syllabus_other_scraping ( url, group ):
 	#get html
 	html = request.urlopen ( url )
 	#set BeautifulSoup
@@ -134,4 +133,5 @@ def syllabus_scraping(url, group):
 
 #if __name__ == "__main__":
 	# time_scraping()
-	#syllabus_scraping()
+	# syllabus_scraping()
+	# syllabus_other_scraping()
