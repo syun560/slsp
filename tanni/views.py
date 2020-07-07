@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
 from account.models import User
-from .models import UserTimeTable, Course
+from .models import UserTimeTable, Course, ShibauraRule
 from .scraping import *
 
 def getTimeTable(id):
@@ -53,8 +53,24 @@ def reg(request):
 
 @login_required
 def sim(request):
+    total_grad = ShibauraRule.objects.filter(department="情報工学科", year=2018).first().credit_for_graduation # 卒業要件
+    reserch_grad = ShibauraRule.objects.filter(department="情報工学科", year=2018).first().credit_for_research # 卒研着手
+    special_grad = ShibauraRule.objects.filter(department="情報工学科", year=2018).first().credit_for_graduation # 専門
+    math_sci_grad = ShibauraRule.objects.filter(department="情報工学科", year=2018).first().credit_for_graduation # 共通数理
+    lang_info_grad = ShibauraRule.objects.filter(department="情報工学科", year=2018).first().credit_for_graduation # 言語情報系
+    jinbun_grad = ShibauraRule.objects.filter(department="情報工学科", year=2018).first().credit_for_graduation # 人文社会科目
+    health_grad = ShibauraRule.objects.filter(department="情報工学科", year=2018).first().credit_for_graduation # 共通健康
+    tech_grad = ShibauraRule.objects.filter(department="情報工学科", year=2018).first().credit_for_graduation # 共通工学
+
     params = {
-        
+        'total_grad': total_grad,
+        'reserch_grad': reserch_grad,
+        'special_grad': special_grad,
+        'math_sci_grad': math_sci_grad,
+        'lang_sci_grad': lang_info_grad,
+        'jinbun_grad': jinbun_grad,
+        'health_grad': health_grad,
+        'tech_grad': tech_grad,
     }
     return render(request, 'tanni/sim.html', params)
 
