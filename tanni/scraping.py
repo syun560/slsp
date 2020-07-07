@@ -97,6 +97,39 @@ def syllabus_scraping(url, group):
 				cnt += 1
 
 	return cnt
+
+	#url
+	url = "http://syllabus.sic.shibaura-it.ac.jp/syllabus/2018/MatrixL01161.html.ja"
+	#get html
+	html = request.urlopen ( url )
+	#set BeautifulSoup
+	soup = BeautifulSoup ( html, "html.parser" )
+
+	#get ClassInfo
+	# Subjects = soup.find_all ( "tr", attrs = { "class", "subject" } )
+	Subjects = soup.find_all ( "tbody" )
+
+	# kind_tanni = { "◎":"必修", "○":"選択必修", "△":"選択", "□":"自由", "☆":"必須認定" }
+	print ( "シラバス\n" )
+
+	for i in Subjects:
+		for j in i.find_all ( "tr", attrs = { "class", "subject" } ):
+			print ( "授業名 : ", j.contents[3].string )
+			print ( "必修状況 : ", end = "" )
+
+			for k in j.find_all ( align = "CENTER" ):
+				print ( k.text, end = "" )
+					
+			print ( "\nコマ数 : ", end = "" )
+
+			if ( j.contents[9].string == "1" ) or ( j.contents[9].string == "2" ) or ( j.contents[9].string == "3" ):
+				print ( j.contents[9].string )
+			elif ( j.contents[11].string == "1" ) or ( j.contents[11].string == "2" ) or ( j.contents[11].string == "3" ):
+				print ( j.contents[11].string )
+			else:
+				print ( j.contents[10].string )
+
+			print ( "単位数 : ", j.contents[5].string, "\n" )
 			
 
 #if __name__ == "__main__":
