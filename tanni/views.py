@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
 from account.models import User
@@ -50,12 +50,22 @@ def userlist(request):
 
 @login_required
 def reg(request):
-
-    
     params = {
         'time_table': getTimeTable(request.user),
     }
     return render(request, 'tanni/reg.html', params)
+
+@login_required
+def reg_delete(request):
+    # 時間割削除処理
+    week = request.POST['week']
+    period = request.POST['period']
+
+    # 削除
+    usr_table = UserTimeTable.objects.filter(course_id__week=week, course_id__period=period).first()
+    usr_table.delete()
+
+    return redirect('tanni:reg')
 
 @login_required
 def sim(request):

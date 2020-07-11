@@ -84,14 +84,17 @@ td, th {
 	選択中：<a id=week></a>曜<a id=period></a>限(現在登録科目：<a id=cSubjId></a>)<br>
 </p></div>
 
-<div id="myDIV5" style="display:none"><p>
-		<button onclick="myFunction();myFunction5();">変更する</button>
-		<form action="">
-			<input type="hidden" id="week" name="曜日">
-			<input type="hidden" id="period" name="時限">
+<div id="myDIV5" style="display:none">
+	<p>
+		<button onclick="myFunction();myFunction5();onClickDelete();">変更する</button>
+		<form action="{% url 'tanni:reg_delete' %}" method="POST">
+			{% csrf_token %}
+			<input type="hidden" id="del_week" name="week">
+			<input type="hidden" id="del_period" name="period">
 			<input type="submit" value="削除する"><br><br>
 		</form>
-</p></div>
+	</p>
+</div>
 
 
 <div class="wrapper">
@@ -143,7 +146,9 @@ td, th {
 </div>
 
 <div id="myDIV3" style="display:none"><p>
-	<br><br>（選択中：<a id=nSubjId></a>）
+	<br>
+	<br>
+	（選択中：<a id=nSubjId></a>）
 		<form action="">
 			<input type="hidden" id="week" name="曜日">
 			<input type="hidden" id="period" name="時限">
@@ -154,71 +159,73 @@ td, th {
 			<input type="hidden" id="crd" name="単位">
 			<input type="submit" value="追加する"><br><br>
 		</form>
-	</p></div>
+	</p>
+</div>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script>
-var CF = 0;
-var CF2 = [0,0,0,0,0,0];
-var subjName = ["専門","共通数理","言語・情報系","人文社会系教養","共通健康","共通工学系教養"];
-var SF = 0;
-var CF3 = 0;
-var week = "";
-var period = 0;
-var nSubjGrpId = "";
-var nSubjId = "";
-var tchr = "";
-var cmp = "";
-var crd = 0;
-var cSubjId = "";
-var ZF = (currentValue) => currentValue == 0;
+let CF = 0;
+let CF2 = [0,0,0,0,0,0];
+let subjName = ["専門","共通数理","言語・情報系","人文社会系教養","共通健康","共通工学系教養"];
+let SF = 0;
+let CF3 = 0;
+let week = 2;
+let period = 2;
+let nSubjGrpId = "";
+let nSubjId = "";
+let tchr = "";
+let cmp = "";
+let crd = 0;
+let cSubjId = "";
+let ZF = (currentValue) => currentValue == 0;
 function myFunction() {
-  var x = document.getElementById("myDIV");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  } 
-  else{
-  x.style.display = "none";
-  }
+	var x = document.getElementById("myDIV");
+	if (x.style.display === "none") {
+    	x.style.display = "block";
+	} 
+	else{
+		x.style.display = "none";
+	}
 }
 
 function myFunction2() {
-  var x = document.getElementById("myDIV2");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  }
-  else{
-  x.style.display = "none";
-  }
+	var x = document.getElementById("myDIV2");
+	if (x.style.display === "none") {
+		x.style.display = "block";
+	}
+	else{
+		x.style.display = "none";
+	}
 }
 
 function myFunction3() {
-  var x = document.getElementById("myDIV3");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  }
-  else{
-  x.style.display = "none";
-  }
+	var x = document.getElementById("myDIV3");
+	if (x.style.display === "none") {
+		x.style.display = "block";
+	}
+	else{
+		x.style.display = "none";
+	}
 }
 
 function myFunction5(){
-  var x = document.getElementById("myDIV5");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  }
-  else{
-  x.style.display = "none";
-  }
+	var x = document.getElementById("myDIV5");
+	if (x.style.display === "none") {
+		x.style.display = "block";
+	}
+	else{
+		x.style.display = "none";
+	}
 }
 
 function myFunction6(){
-  var x = document.getElementById("myDIV6");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  }
-  else{
-  x.style.display = "none";
-  }
+	var x = document.getElementById("myDIV6");
+	if (x.style.display === "none") {
+		x.style.display = "block";
+	}
+	else {
+		x.style.display = "none";
+	}
 }
 
 //function subjLoad(CF2){
@@ -230,27 +237,33 @@ function myFunction6(){
 
 choose1();
 function choose1() {
-	
-    var table = document.getElementById('display-table');
-    var cells = table.getElementsByTagName('td');
+    let table = document.getElementById('display-table');
+    let cells = table.getElementsByTagName('td');
 
     for (var i = 0; i < cells.length; i++) {
-        var cell = cells[i];
+		let cell = cells[i];
+		
+		// セルがクリックされたとき
         cell.onclick = function () {
-            var rowId = this.parentNode.rowIndex-1;
-			var cellId = this.cellIndex-1;
-			var CellSelected = table.getElementsByTagName('td')[cellId+rowId*6];
-			var TempR = cellId+rowId*6;
-            var cellsNotSelected = cells;
+            let rowId = this.parentNode.rowIndex-1;
+			let cellId = this.cellIndex-1;
+			let CellSelected = table.getElementsByTagName('td')[cellId + rowId * 6];
+			let TempR = cellId + rowId * 6;
+            let cellsNotSelected = cells;
 			
+			// 削除するフォームのhidden要素に値をセットする
+			document.getElementById("del_week").value = cellId + 1;
+			document.getElementById("del_period").value = rowId + 1;
+
+			// すでに選択されている場合 → returnで抜ける
 			if (CellSelected.style.backgroundColor === "yellow"){
 				CellSelected.style.backgroundColor = "";
 				CellSelected.classList.remove('selected');
-				if(document.getElementById("myDIV").style.display === "block"){
-				myFunction();
+				if (document.getElementById("myDIV").style.display === "block"){
+					myFunction();
 				}
 				else{
-				myFunction5();
+					myFunction5();
 				}
 				myFunction6();
 				CF = 0;
@@ -261,11 +274,14 @@ function choose1() {
 				return;
 			}
 			
+			// セルが未選択の場合
+			// ほかのセルは非選択にする
             for (var c = 0; c < cellsNotSelected.length; c++) {
                 cellsNotSelected[c].style.backgroundColor = "";
                 cellsNotSelected[c].classList.remove('selected');
             }
 			
+			// セルの色を変える
             CellSelected.style.backgroundColor = "yellow";
             CellSelected.className += " selected";
 			rowId += 1;
@@ -278,10 +294,10 @@ function choose1() {
 			document.getElementById("period").innerHTML = rowId;
 			if(CF === 0){
 				if(document.getElementById("cSubjId").innerHTML === "無"){
-				myFunction();
+					myFunction();
 				}
 				else{
-				myFunction5();
+					myFunction5();
 				}
 				myFunction6();
 				CF = 1;
