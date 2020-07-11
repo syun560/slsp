@@ -1,6 +1,5 @@
 {% extends 'tanni/base.html' %}
 {% block content %}
-    <p>aa00001としてログインしています。</p>
     <p>ユーザ一覧を表示しています。<br>
         学籍番号をクリックすると詳細が表示されます。
     </p>
@@ -124,7 +123,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for usr in user_all %}
+                {% for usr in user_list %}
                 <tr>
                     <td><a href="{% url 'tanni:userlist' usr.student_id %}" class="text-decoration-none">{{ usr.student_id }}</a></td>
                     <td>{{ usr.username }} </td>

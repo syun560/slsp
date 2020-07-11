@@ -35,10 +35,16 @@ def userinfo(request, student_id):
 
 @login_required
 def userlist(request):
-    # すべてのユーザの情報を取得
-    user_all = User.objects.all()
+    # 共通処理、すべてのユーザの情報を取得
+    user_list = User.objects.all()
+
+    # POSTアクセス時の処理、絞り込み
+    if request.method == 'POST':
+        search_word = request.POST['faculty'] + request.POST['department']
+        user_list = User.objects.filter(student_id__contains=search_word)
+
     params = {
-        'user_all': user_all,
+        'user_list': user_list,
     }
     return render(request, 'tanni/userlist.html', params)
 

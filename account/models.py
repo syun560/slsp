@@ -85,6 +85,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name = _('user')
         verbose_name_plural = _('users')
         #abstract = True # ここを削除しないといけないことを忘れない！！！！！！！！！！
+        
+        ordering = ('student_id',) # 学籍番号順にする
 
     def clean(self):
         super().clean()
