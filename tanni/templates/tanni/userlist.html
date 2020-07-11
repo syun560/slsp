@@ -123,7 +123,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for usr in user_all %}
+                {% for usr in user_list %}
                 <tr>
                     <td><a href="{% url 'tanni:userlist' usr.student_id %}" class="text-decoration-none">{{ usr.student_id }}</a></td>
                     <td>{{ usr.username }} </td>
