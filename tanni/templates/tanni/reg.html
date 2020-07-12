@@ -262,7 +262,7 @@
 
 	function subjLoad(CF2) {
 		// CF2[]=科目群、0=専門、1=共通数理…
-		let url = "/reg_get/" + CF2 
+		let url = "/reg_get/" + CF2 + "/" + week + "/" + period + "/";
 		$.ajax({
 			type: 'GET',
 			url: url,
@@ -291,9 +291,9 @@
 				let cellsNotSelected = cells;
 
 				// 削除するフォームのhidden要素に値をセットする
-				document.getElementById("del_week").value = cellId + 1;
-				document.getElementById("del_period").value = rowId + 1;
-
+				week = document.getElementById("del_week").value = cellId + 1;
+				period = document.getElementById("del_period").value = rowId + 1;
+				
 				// すでに選択されている場合 → returnで抜ける
 				if (CellSelected.style.backgroundColor === "yellow") {
 					CellSelected.style.backgroundColor = "";
