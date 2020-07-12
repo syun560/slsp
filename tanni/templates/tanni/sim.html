@@ -150,13 +150,6 @@ td, th {
 {% block script %}
 <script>
 var totalcrd = 0;
-var s = 
-  [document.getElementById('s1').value,
-  document.getElementById('s2').value,
-  document.getElementById('s3').value,
-  document.getElementById('s4').value,
-  document.getElementById('s5').value,
-  document.getElementById('s6').value];//s[] = 入力値(intでなくvar)
   
 function myFunction() {
   var x = document.getElementById("myDIV");
@@ -169,6 +162,13 @@ function myFunction() {
 
 function calculate(){
   var sum = 0;
+  var s = 
+  [document.getElementById('s1').value,
+  document.getElementById('s2').value,
+  document.getElementById('s3').value,
+  document.getElementById('s4').value,
+  document.getElementById('s5').value,
+  document.getElementById('s6').value];//s[] = 入力値(intでなくvar)
   for (var i = 0; i < s.length ; i++){
   sum += parseInt(s[i]);//paseInt(x)-> var x => int x
   }
