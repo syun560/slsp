@@ -55,7 +55,16 @@ class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(_('first name'), max_length=30, blank=False)
     last_name = models.CharField(_('last name'), max_length=150, blank=False)
     email = models.EmailField(_('email address'), blank=False, unique=True)
+    
+    # 追加
     student_id = models.CharField(max_length=7,blank=True)
+    senmon = models.IntegerField(default=0)
+    suuri = models.IntegerField(default=0)
+    gengo = models.IntegerField(default=0)
+    jinbun = models.IntegerField(default=0)
+    kenkou = models.IntegerField(default=0)
+    kougaku = models.IntegerField(default=0)
+
     is_leaders = models.BooleanField(
         _('leaders status'),
         default=False,
