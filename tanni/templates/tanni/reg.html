@@ -193,6 +193,7 @@
 {% endblock %}
 {% block script %}
 <script>
+	let OF = 0;//新しく追加
 	let CF = 0;
 	let CF2 = [0, 0, 0, 0, 0, 0];
 	let subjName = ["専門", "共通数理", "言語・情報系", "人文社会系教養", "共通健康", "共通工学系教養"];
@@ -211,6 +212,7 @@
 		var x = document.getElementById("myDIV");
 		if (x.style.display === "none") {
 			x.style.display = "block";
+			OF = 0;//新しく追加
 		}
 		else {
 			x.style.display = "none";
@@ -241,6 +243,7 @@
 		var x = document.getElementById("myDIV5");
 		if (x.style.display === "none") {
 			x.style.display = "block";
+			OF = 1;//新しく追加
 		}
 		else {
 			x.style.display = "none";
@@ -328,12 +331,50 @@
 				}
 				document.getElementById("week").innerHTML = table.rows[0].cells[cellId + 1].innerHTML;
 				document.getElementById("period").innerHTML = rowId;
+								
+				//新しく追加（↓）
+				if(CF === 1){
+					if(document.getElementById("cSubjId").innerHTML === "無" && OF === 1){
+						CF = 0;
+						if(SF === 1)
+							choose2();
+						if(CF3 === 1)
+							choose3();
+						myFunction5();
+						myFunction();
+						OF = 0;		
+						CF = 1;
+					}
+					else if(document.getElementById("cSubjId").innerHTML != "無" && OF === 0){
+						CF = 0;
+						if(SF === 1)
+							choose2();
+						if(CF3 === 1)
+							choose3();
+						myFunction();
+						myFunction5();
+						OF = 1;	
+						CF = 1;
+					}
+					else {
+						CF = 0;
+						if(SF === 1)
+							choose2();
+						if(CF3 === 1)
+							choose3();
+						CF = 1;
+					}
+				}
+				//新しく追加（↑）
+				
 				if (CF === 0) {
 					if (document.getElementById("cSubjId").innerHTML === "無") {
 						myFunction();
+						OF = 0;//新しく追加
 					}
 					else {
 						myFunction5();
+						OF = 1;//新しく追加
 					}
 					myFunction6();
 					CF = 1;
