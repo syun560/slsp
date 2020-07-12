@@ -70,10 +70,23 @@ def reg_add(request):
     return redirect('tanni:reg')
 
 @login_required
-def reg_get(request,a,b,c,d,e,f):
-    print(a,b,c,d,e,f)
-    # course_list = Course.objects.filter(subject_id__group='専門')
-    course_list = Course.objects.all()
+def reg_get(request,a,b,c,d,e,f,week,period):
+    print(a,b,c,d,e,f,week,period)
+    aa = bb = cc = dd = ee = ff = Course.objects.filter(subject_id__group='')
+    if a == 1:
+        aa = Course.objects.filter(subject_id__group='専門', week=week, period=period)
+    if b == 1:
+        bb = Course.objects.filter(subject_id__group='共通数理', week=week, period=period)
+    if c == 1:
+        cc = Course.objects.filter(subject_id__group='言語・情報系', week=week, period=period)
+    if d == 1:
+        dd = Course.objects.filter(subject_id__group='人文社会系教養', week=week, period=period)
+    if e == 1:
+        ee = Course.objects.filter(subject_id__group='共通健康', week=week, period=period)
+    if f == 1:
+        ff = Course.objects.filter(subject_id__group='共通工学系教養', week=week, period=period)
+    
+    course_list = aa.union(bb, cc, dd, ee, ff)
     params = {
         'course_list': course_list,
     }
