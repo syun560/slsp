@@ -1,38 +1,119 @@
 {% extends 'tanni/base.html' %}
 {% block content %}
-    <p>aa00001としてログインしています。</p>
     <p>ユーザ一覧を表示しています。<br>
         学籍番号をクリックすると詳細が表示されます。
     </p>
 
     <!--絞り込み条件-->
     <p>
-        絞り込み条件：
-        <select>
-            <option>選択しない</option>
-            <option>工</option>
-            <option>システム理工</option>
-            <option>デザイン工</option>
-            <option>建築</option>
-        </select>学部
+        <form action="" method="POST">
+            {% csrf_token %}
+            絞り込み条件：
+            学部
+            <select name="faculty" id="faculty">
+                <option>選択しない</option>
+                <option value="a">工</option>
+                <option value="b">システム理工</option>
+                <option value="c">デザイン工</option>
+                <option value="d">建築</option>
+            </select>
 
-        <select>
-            <option>選択しない</option>
-            <option>機械工</option>
-            <option>材料工</option>
-            <option>電子工</option>
-            <option>機械機能工</option>
-            <option>情報工</option>
-            <option>情報通信工</option>
-        </select>学科
-
-        <select>
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-        </select>年
+            学科
+            <select name="department" id="department">
+                <option value="">選択しない</option>
+            </select>
+            <button type="submit">絞り込み</button>
+        </form>
     </p>
+    <script>
+        window.onload = function(){
+            depertment=document.getElementById("department");
+            faculty = document.getElementById("faculty");
+            faculty.onchange=changeFaculty;
+        }
+        function changeFaculty(){
+            var changeFaculty = faculty.value;
+
+            if(changeFaculty=="a"){
+                setA();
+            }else if(changeFaculty=="b"){
+                setB();
+            }else if(changeFaculty=="c"){
+                setC();
+            }else if(changeFaculty=="d"){
+                setD();
+            }
+        }
+        function setA(){
+            department.textContent = null;
+            var A=[
+                {cd:"",label:"選択して下さい"},
+                {cd:"a",label:"機械工"},
+                {cd:"b",label:"機械機能工"},
+                {cd:"c",label:"材料工"},
+                {cd:"d",label:"応用化"},
+                {cd:"e",label:"電気工"},
+                {cd:"f",label:"情報通信工"},
+                {cd:"g",label:"電子工"},
+                {cd:"h",label:"土木工"},
+                {cd:"j",label:"建築"},
+                {cd:"k",label:"建築工"},
+                {cd:"l",label:"情報工"},
+                {cd:"m",label:"先進国際課程"}
+            ]
+
+            A.forEach(function(value){
+                var op = document.createElement("option");
+                op.value=value.cd;
+                op.text=value.label;
+                department.appendChild(op);
+            });
+        }
+        function setB(){
+            department.textContent=null;
+            var B=[
+                {cd:"",label:"選択して下さい"},
+                {cd:"p",label:"電子情報システム"},
+                {cd:"q",label:"機械制御システム"},
+                {cd:"r",label:"環境システム"},
+                {cd:"n",label:"生命化"},
+                {cd:"v",label:"数理科"}
+            ]
+
+            B.forEach(function(value){
+                var op = document.createElement("option");
+                op.value=value.cd;
+                op.text=value.label;
+                department.appendChild(op);
+            });
+        }
+        function setC(){
+            department.textContent=null;
+            var C=[
+                {cd:"",label:"選択して下さい"},
+                {cd:"y",label:"デザイン工"}
+            ]
+            C.forEach(function(value){
+                var op = document.createElement("option");
+                op.value=value.cd;
+                op.text=value.label;
+                department.appendChild(op);
+            });
+        }
+        function setD(){
+            department.textContent=null;
+            var D=[
+                {cd:"",label:"選択して下さい"},
+                {cd:"z",label:"建築"},
+            ]
+            D.forEach(function(value){
+                var op = document.createElement("option");
+                op.value=value.cd;
+                op.text=value.label;
+                department.appendChild(op);
+            });
+        }
+    </script>
     <div class="table-responsive">
         <table class="table table-hover table-sm">
             <thead class="thead-light">
@@ -42,7 +123,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for usr in user_all %}
+                {% for usr in user_list %}
                 <tr>
                     <td><a href="{% url 'tanni:userlist' usr.student_id %}" class="text-decoration-none">{{ usr.student_id }}</a></td>
                     <td>{{ usr.username }} </td>

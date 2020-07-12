@@ -96,9 +96,8 @@
 <div id="myDIV5" style="display:none">
 	<p>
 		<button onclick="myFunction();myFunction5()">変更する</button>
-<!--<form action="{% url 'tanni:reg_delete' %}" method="POST">
-		{% csrf_token %}                                   -->
-	<form action="">
+	<form action="{% url 'tanni:reg_delete' %}" method="POST">
+		{% csrf_token %}
 		<input type="hidden" id="del_week" name="week">
 		<input type="hidden" id="del_period" name="period">
 		<input type="submit" value="削除する"><br><br>
@@ -178,8 +177,8 @@
 		<br>
 		<br>
 		（選択中：<a id=nSubjId></a>）
-<!--<form action="{% url 'tanni:reg_add' %}" method="POST"> -->
-	<form action="">
+	<form action="{% url 'tanni:reg_add' %}" method="POST">
+		{% csrf_token %}
 		<input type="hidden" id="week" name="曜日">
 		<input type="hidden" id="period" name="時限">
 		<input type="hidden" id="nSubjGrpId" name="科目群名">
@@ -261,7 +260,7 @@
 		}
 	}
 
-	/*function subjLoad(CF2) {
+	function subjLoad(CF2) {
 		// CF2[]=科目群、0=専門、1=共通数理…
 		let url = "/reg_get/" + CF2 
 		$.ajax({
@@ -272,7 +271,7 @@
 				choose3();
 			}
 		})
-	}*/
+	}
 
 
 	choose1();
@@ -332,7 +331,7 @@
 				}
 				document.getElementById("week").innerHTML = table.rows[0].cells[cellId + 1].innerHTML;
 				document.getElementById("period").innerHTML = rowId;
-				
+								
 				//新しく追加（↓）
 				if(CF === 1){
 					if(document.getElementById("cSubjId").innerHTML === "無" && OF === 1){
@@ -422,7 +421,7 @@
 				rowSelected.style.backgroundColor = "yellow";
 				rowSelected.className += " selected";
 				CF2[rowId] += 1;
-				//subjLoad(CF2);
+				subjLoad(CF2);
 				if (CF2.every(ZF) === false && SF === 0) {
 					myFunction2();
 					SF = 1;
