@@ -58,12 +58,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     
     # 追加
     student_id = models.CharField(max_length=7,blank=True)
-    senmon = models.IntegerField(default=0)
-    suuri = models.IntegerField(default=0)
-    gengo = models.IntegerField(default=0)
-    jinbun = models.IntegerField(default=0)
-    kenkou = models.IntegerField(default=0)
-    kougaku = models.IntegerField(default=0)
+    senmon = models.PositiveSmallIntegerField(default=0)
+    suuri = models.PositiveSmallIntegerField(default=0)
+    gengo = models.PositiveSmallIntegerField(default=0)
+    jinbun = models.PositiveSmallIntegerField(default=0)
+    kenkou = models.PositiveSmallIntegerField(default=0)
+    kougaku = models.PositiveSmallIntegerField(default=0)
 
     is_leaders = models.BooleanField(
         _('leaders status'),
