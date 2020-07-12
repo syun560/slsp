@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 
 from account.models import User
 from .models import UserTimeTable, Course
@@ -56,6 +57,29 @@ def reg(request):
     return render(request, 'tanni/reg.html', params)
 
 @login_required
+def reg_add(request):
+    if request.method=='POST':
+        # 時間割追加処理
+        course_id = Course.objects.filter(subject_id__title=request.POST['subject']).first()
+
+        # 追加
+        usr_table = UserTimeTable(user_id=request.user, course_id=course_id, status='履修中')
+        usr_table.save()
+
+    # 履修登録ページにリダイレクト
+    return redirect('tanni:reg')
+
+@login_required
+def reg_get(request,a,b,c,d,e,f):
+    print(a,b,c,d,e,f)
+    # course_list = Course.objects.filter(subject_id__group='専門')
+    course_list = Course.objects.all()
+    params = {
+        'course_list': course_list,
+    }
+    return render(request, 'tanni/myDIV4.html', params)
+
+@login_required
 def reg_delete(request):
     # 時間割削除処理
     week = request.POST['week']
@@ -65,6 +89,7 @@ def reg_delete(request):
     usr_table = UserTimeTable.objects.filter(course_id__week=week, course_id__period=period).first()
     usr_table.delete()
 
+    # 履修登録ページにリダイレクト
     return redirect('tanni:reg')
 
 @login_required
