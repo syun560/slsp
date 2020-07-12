@@ -96,8 +96,9 @@
 <div id="myDIV5" style="display:none">
 	<p>
 		<button onclick="myFunction();myFunction5()">変更する</button>
-	<form action="{% url 'tanni:reg_delete' %}" method="POST">
-		{% csrf_token %}
+<!--<form action="{% url 'tanni:reg_delete' %}" method="POST">
+		{% csrf_token %}                                   -->
+	<form action="">
 		<input type="hidden" id="del_week" name="week">
 		<input type="hidden" id="del_period" name="period">
 		<input type="submit" value="削除する"><br><br>
@@ -177,8 +178,8 @@
 		<br>
 		<br>
 		（選択中：<a id=nSubjId></a>）
-	<form action="{% url 'tanni:reg_add' %}" method="POST">
-		{% csrf_token %}
+<!--<form action="{% url 'tanni:reg_add' %}" method="POST"> -->
+	<form action="">
 		<input type="hidden" id="week" name="曜日">
 		<input type="hidden" id="period" name="時限">
 		<input type="hidden" id="nSubjGrpId" name="科目群名">
@@ -193,7 +194,7 @@
 {% endblock %}
 {% block script %}
 <script>
-	let OF = 1;
+	let OF = 0;//新しく追加
 	let CF = 0;
 	let CF2 = [0, 0, 0, 0, 0, 0];
 	let subjName = ["専門", "共通数理", "言語・情報系", "人文社会系教養", "共通健康", "共通工学系教養"];
@@ -212,7 +213,7 @@
 		var x = document.getElementById("myDIV");
 		if (x.style.display === "none") {
 			x.style.display = "block";
-			OF = 0;
+			OF = 0;//新しく追加
 		}
 		else {
 			x.style.display = "none";
@@ -243,7 +244,7 @@
 		var x = document.getElementById("myDIV5");
 		if (x.style.display === "none") {
 			x.style.display = "block";
-			OF = 1;
+			OF = 1;//新しく追加
 		}
 		else {
 			x.style.display = "none";
@@ -260,7 +261,7 @@
 		}
 	}
 
-	function subjLoad(CF2) {
+	/*function subjLoad(CF2) {
 		// CF2[]=科目群、0=専門、1=共通数理…
 		let url = "/reg_get/" + CF2 
 		$.ajax({
@@ -271,7 +272,7 @@
 				choose3();
 			}
 		})
-	}
+	}*/
 
 
 	choose1();
@@ -331,7 +332,8 @@
 				}
 				document.getElementById("week").innerHTML = table.rows[0].cells[cellId + 1].innerHTML;
 				document.getElementById("period").innerHTML = rowId;
-				//新しく追加
+				
+				//新しく追加（↓）
 				if(CF === 1){
 					if(document.getElementById("cSubjId").innerHTML === "無" && OF === 1){
 						CF = 0;
@@ -364,14 +366,16 @@
 						CF = 1;
 					}
 				}
+				//新しく追加（↑）
+				
 				if (CF === 0) {
 					if (document.getElementById("cSubjId").innerHTML === "無") {
 						myFunction();
-						OF = 0;
+						OF = 0;//新しく追加
 					}
 					else {
 						myFunction5();
-						OF = 1;
+						OF = 1;//新しく追加
 					}
 					myFunction6();
 					CF = 1;
@@ -418,7 +422,7 @@
 				rowSelected.style.backgroundColor = "yellow";
 				rowSelected.className += " selected";
 				CF2[rowId] += 1;
-				subjLoad(CF2);
+				//subjLoad(CF2);
 				if (CF2.every(ZF) === false && SF === 0) {
 					myFunction2();
 					SF = 1;
