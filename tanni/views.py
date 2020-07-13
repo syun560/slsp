@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.db.models import Sum
 
 from account.models import User
-from .models import UserTimeTable, Course
+from .models import UserTimeTable, Course, ShibauraRule
 from .scraping import *
 
 def getTimeTable(id):
@@ -111,6 +112,48 @@ def sim(request):
         
     }
     return render(request, 'tanni/sim.html', params)
+
+@login_required
+def sim_get(request,a,b,c,d,e,f):
+    # セーブ処理
+    obj = User.objects.get(id=request.user.id)
+    obj.senmon = a
+    obj.suuri = b
+    obj.gengo = c
+    obj.jinbun = d
+    obj.kenkou = e
+    obj.kougaku = f
+    obj.save()
+
+    # 集計
+    us = UserTimeTable.objects.filter(user_id=request.user)
+    re1 = us.filter(course_id__subject_id__group='専門').aggregate(Sum('course_id__subject_id__credit'))
+    re2 = us.filter(course_id__subject_id__group='共通数理').aggregate(Sum('course_id__subject_id__credit'))
+    re3 = us.filter(course_id__subject_id__group='言語・情報系').aggregate(Sum('course_id__subject_id__credit'))
+    re4 = us.filter(course_id__subject_id__group='人文社会系教養').aggregate(Sum('course_id__subject_id__credit'))
+    re5 = us.filter(course_id__subject_id__group='共通健康').aggregate(Sum('course_id__subject_id__credit'))
+    re6 = us.filter(course_id__subject_id__group='共通工学系教養').aggregate(Sum('course_id__subject_id__credit'))
+    r1 = re1['course_id__subject_id__credit__sum'] if re1['course_id__subject_id__credit__sum'] != None else 0
+    r2 = re2['course_id__subject_id__credit__sum'] if re2['course_id__subject_id__credit__sum'] != None else 0
+    r3 = re3['course_id__subject_id__credit__sum'] if re3['course_id__subject_id__credit__sum'] != None else 0
+    r4 = re4['course_id__subject_id__credit__sum'] if re4['course_id__subject_id__credit__sum'] != None else 0
+    r5 = re5['course_id__subject_id__credit__sum'] if re5['course_id__subject_id__credit__sum'] != None else 0
+    r6 = re6['course_id__subject_id__credit__sum'] if re6['course_id__subject_id__credit__sum'] != None else 0
+    sum = r1 + r2 + r3 + r4 + r5 + r6
+    required = ShibauraRule.objects.filter(department='情報工学科').first().credit_for_graduation
+
+    params = {
+        'senmon':  str(r1 + a) + ' ('  + str(r1) + ')',
+        'suuri':   str(r2 + b) + ' ('  + str(r2) + ')',
+        'gengo':   str(r3 + c) + ' ('  + str(r3) + ')',
+        'jinbun':  str(r4 + d) + ' ('  + str(r4) + ')',
+        'kenkou':  str(r5 + e) + ' ('  + str(r5) + ')',
+        'kougaku': str(r6 + f) + ' ('  + str(r6) + ')',
+        'sum': sum,
+        'required': required,
+        'diff': required - sum,
+    }
+    return render(request, 'tanni/sim_tanni.html', params)
 
 
 @login_required
