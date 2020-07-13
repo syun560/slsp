@@ -63,9 +63,13 @@ def reg_add(request):
         # 時間割追加処理
         course_id = Course.objects.filter(subject_id__title=request.POST['subject']).first()
 
-        # 追加
-        usr_table = UserTimeTable(user_id=request.user, course_id=course_id, status='履修中')
-        usr_table.save()
+        # 同じcourse_idが存在しなければ追加
+        if not UserTimeTable.objects.filter(user_id=request.user, course_id=course_id).exists():
+            usr_table = UserTimeTable(user_id=request.user, course_id=course_id, status='履修中')
+            usr_table.save()
+
+            # もし2コマの教科だったらその下の時限も登録
+            # if course_id.subject_id.unit == 2:    
 
     # 履修登録ページにリダイレクト
     return redirect('tanni:reg')
