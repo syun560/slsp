@@ -15,6 +15,7 @@ urlpatterns = [
     path('reg_delete/', views.reg_delete, name='reg_delete'),
 
     path('sim/', views.sim, name='sim'),
+    path('sim_get/<int:a>,<int:b>,<int:c>,<int:d>,<int:e>,<int:f>/', views.sim_get, name='sim_get'),
     
     path('scraping/', views.scraping, name='scraping'),
 ]

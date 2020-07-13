@@ -1,0 +1,42 @@
+<div class="left">
+    <p>＜取得単位＞（うち取得予定単位）</p>
+    <table class="b">
+        <tr>
+            <td>専門</td>
+            <td>{{ senmon }}</td>
+        </tr>
+        <tr>
+            <td>共通数理</td>
+            <td>{{ suuri }}</td>
+        </tr>
+        <tr>
+            <td>言語・情報系</td>
+            <td>{{ gengo }}</td>
+        </tr>
+        <tr>
+            <td>人文社会系教養</td>
+            <td>{{ jinbun }}</td>
+        </tr>
+        <tr>
+            <td>共通健康</td>
+            <td>{{ kenkou }}</td>
+        </tr>
+        <tr>
+            <td>共通工学系教養</td>
+            <td>{{ kougaku }}</td>
+        </tr>
+        <tr>
+            <td>取得済み単位合計</td>
+            <td><a id=totalcrd>{{ sum }}</a></td>
+        </tr>
+    </table>
+</div>
+<div class="right">
+    <p>＜卒業必要単位＞: {{ required }}</p>
+    <p>{{ message }}</p>
+    {% if diff >= 0 %}
+    <p>OK</p>
+    {% else %}
+    <p>残り{{ diff }}単位必要}</p>
+    {% endif %}
+</div>
