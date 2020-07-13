@@ -37,10 +37,20 @@ def time_scraping(url):
 					for l in k.find_all ( "td", colspan = "2" ):
 						teacher = l.string
 						print("教員名 :", teacher, "\n")
-					if not Course.objects.filter(year=2020, term=1, week=week+1, period=time+1).exists():
+					
+					p = ""
+					for place in k.find_all ( "font", size = "-1" ):
+						if "大宮地区" in place:
+							p = place.text[0:4]
+							print ( place.text[0:4], "\n" )
+						if "豊洲地区" in place:
+							p = place.text[0:4]
+							print ( place.text[0:4], "\n" )
+					
+					if not Course.objects.filter(year=2020, term=1, week=week+1, period=time+1, subject_id__title=title).exists():
 						if Subject.objects.filter(title=title).exists():
 							subject_id = Subject.objects.filter(title=title).first()
-							course = Course(subject_id=subject_id, year=2020, term=1, week=week+1, period=time+1, place="豊洲", teacher=teacher)
+							course = Course(subject_id=subject_id, year=2020, term=1, week=week+1, period=time+1, place=p, teacher=teacher)
 							course.save()
 							cnt += 1
 	
@@ -111,24 +121,39 @@ def syllabus_other_scraping ( url, group ):
 	# kind_tanni = { "◎":"必修", "○":"選択必修", "△":"選択", "□":"自由", "☆":"必須認定" }
 	print ( "シラバス\n" )
 
+	cnt = 0
 	for i in Subjects:
 		for j in i.find_all ( "tr", attrs = { "class", "subject" } ):
+			title = j.contents[3].string
 			print ( "授業名 : ", j.contents[3].string )
 			print ( "必修状況 : ", end = "" )
 
+			required = ""
 			for k in j.find_all ( align = "CENTER" ):
+				required = k.text
 				print ( k.text, end = "" )
 					
 			print ( "\nコマ数 : ", end = "" )
-
+			unit = 1
 			if ( j.contents[9].string == "1" ) or ( j.contents[9].string == "2" ) or ( j.contents[9].string == "3" ):
+				unit = j.contents[9].string
 				print ( j.contents[9].string )
 			elif ( j.contents[11].string == "1" ) or ( j.contents[11].string == "2" ) or ( j.contents[11].string == "3" ):
+				unit = j.contents[11].string
 				print ( j.contents[11].string )
 			else:
+				unit = j.contents[10].string
 				print ( j.contents[10].string )
 
+			credit = j.contents[5].string
 			print ( "単位数 : ", j.contents[5].string, "\n" )
+
+			if not Subject.objects.filter(title=title).exists():
+				subject = Subject(title=title, group=group, required=required, unit=unit, credit=credit)
+				subject.save()
+				cnt += 1
+
+	return cnt
 			
 
 #if __name__ == "__main__":

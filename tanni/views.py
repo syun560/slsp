@@ -63,9 +63,13 @@ def reg_add(request):
         # 時間割追加処理
         course_id = Course.objects.filter(subject_id__title=request.POST['subject']).first()
 
-        # 追加
-        usr_table = UserTimeTable(user_id=request.user, course_id=course_id, status='履修中')
-        usr_table.save()
+        # 同じcourse_idが存在しなければ追加
+        if not UserTimeTable.objects.filter(user_id=request.user, course_id=course_id).exists():
+            usr_table = UserTimeTable(user_id=request.user, course_id=course_id, status='履修中')
+            usr_table.save()
+
+            # もし2コマの教科だったらその下の時限も登録
+            # if course_id.subject_id.unit == 2:    
 
     # 履修登録ページにリダイレクト
     return redirect('tanni:reg')
@@ -158,25 +162,23 @@ def sim_get(request,a,b,c,d,e,f):
 
 @login_required
 def scraping(request):
-    # time_scraping()
-
     cnt = ccnt = 0
     url_list = [
         'http://syllabus.sic.shibaura-it.ac.jp/syllabus/2018/MatrixL01131.html.ja', # 専門
-        # 'http://syllabus.sic.shibaura-it.ac.jp/syllabus/2018/MatrixL01161.html.ja', # 共通数理
-        # 'http://syllabus.sic.shibaura-it.ac.jp/syllabus/2018/MatrixL01162.html.ja', # 言語・情報系
-        # 'http://syllabus.sic.shibaura-it.ac.jp/syllabus/2018/MatrixL01163.html.ja', # 人文社会系教養
-        # 'http://syllabus.sic.shibaura-it.ac.jp/syllabus/2018/MatrixL01164.html.ja', # 共通健康
-        # 'http://syllabus.sic.shibaura-it.ac.jp/syllabus/2018/MatrixL01165.html.ja', # 共通工学系教養
-        # 'http://syllabus.sic.shibaura-it.ac.jp/syllabus/2018/MatrixL01171.html.ja', # 全学共通科目群
+        'http://syllabus.sic.shibaura-it.ac.jp/syllabus/2018/MatrixL01161.html.ja', # 共通数理
+        'http://syllabus.sic.shibaura-it.ac.jp/syllabus/2018/MatrixL01162.html.ja', # 言語・情報系
+        'http://syllabus.sic.shibaura-it.ac.jp/syllabus/2018/MatrixL01163.html.ja', # 人文社会系教養
+        'http://syllabus.sic.shibaura-it.ac.jp/syllabus/2018/MatrixL01164.html.ja', # 共通健康
+        'http://syllabus.sic.shibaura-it.ac.jp/syllabus/2018/MatrixL01165.html.ja', # 共通工学系教養
+        'http://syllabus.sic.shibaura-it.ac.jp/syllabus/2018/MatrixL01171.html.ja', # 全学共通科目群
     ]
     cnt += syllabus_scraping(url_list[0], "専門")
-    # cnt += syllabus_scraping(url_list[1], "共通数理")
-    # cnt += syllabus_scraping(url_list[2], "言語・情報系")
-    # cnt += syllabus_scraping(url_list[3], "人文社会系教養")
-    # cnt += syllabus_scraping(url_list[4], "共通健康")
-    # cnt += syllabus_scraping(url_list[5], "共通工学系教養")
-    # cnt += syllabus_scraping(url_list[6], "全学共通科目群")
+    cnt += syllabus_other_scraping(url_list[1], "共通数理")
+    cnt += syllabus_other_scraping(url_list[2], "言語・情報系")
+    cnt += syllabus_other_scraping(url_list[3], "人文社会系教養")
+    cnt += syllabus_other_scraping(url_list[4], "共通健康")
+    cnt += syllabus_other_scraping(url_list[5], "共通工学系教養")
+    cnt += syllabus_other_scraping(url_list[6], "全学共通科目群")
 
     ccnt += time_scraping("http://timetable.sic.shibaura-it.ac.jp/table/2020/Timetable1L0113.html")
 
