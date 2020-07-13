@@ -57,7 +57,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_('email address'), blank=False, unique=True)
     
     # 追加
-    student_id = models.CharField(max_length=7,blank=True)
+    student_id = models.CharField(max_length=7,blank=False)
     senmon = models.PositiveSmallIntegerField(default=0)
     suuri = models.PositiveSmallIntegerField(default=0)
     gengo = models.PositiveSmallIntegerField(default=0)
