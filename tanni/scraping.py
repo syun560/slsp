@@ -37,10 +37,19 @@ def time_scraping(url):
 					for l in k.find_all ( "td", colspan = "2" ):
 						teacher = l.string
 						print("教員名 :", teacher, "\n")
+					
+					place = ""
+					for p in k.find_all ( "font", size = "-1" ):
+						if "大宮地区" in place:
+							place = p.text[0:4]
+							print ( p.text[0:4], "\n" )
+						elif "豊洲地区" in place:
+							place = p.text[0:4]
+							print ( p.text[0:4], "\n" )
 					if not Course.objects.filter(year=2020, term=1, week=week+1, period=time+1).exists():
 						if Subject.objects.filter(title=title).exists():
 							subject_id = Subject.objects.filter(title=title).first()
-							course = Course(subject_id=subject_id, year=2020, term=1, week=week+1, period=time+1, place="豊洲", teacher=teacher)
+							course = Course(subject_id=subject_id, year=2020, term=1, week=week+1, period=time+1, place=place, teacher=teacher)
 							course.save()
 							cnt += 1
 	
