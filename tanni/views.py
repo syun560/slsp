@@ -61,7 +61,7 @@ def reg(request):
 def reg_add(request):
     if request.method=='POST':
         # 時間割追加処理
-        course_id = Course.objects.filter(subject_id__title=request.POST['subject']).first()
+        course_id = Course.objects.filter(subject_id__title=request.POST['subject'], week=request.POST['week'], period=request.POST['period']).first()
 
         # 同じcourse_idが存在しなければ追加
         if not UserTimeTable.objects.filter(user_id=request.user, course_id=course_id).exists():
