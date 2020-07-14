@@ -31,7 +31,7 @@
                 </ul>
             </div>
             <!--ここにユーザー名を入れる-->
-            <h6 class="text-white text-nowrap">ようこそAA00000 /&nbsp;</h6>
+            <h6 class="text-white text-nowrap">ようこそ {{ user.username }} /&nbsp;</h6>
             <a href="{% url 'account:logout' %}" class="text-primary text-nowrap">ログアウト</a>
         </nav>
         <div class="container mt-4">
