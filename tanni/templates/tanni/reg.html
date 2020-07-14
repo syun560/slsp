@@ -1,71 +1,9 @@
 {% extends 'tanni/base.html' %}
-{% block style %}
-<style>
-	table.a {
-		font-family: arial, sans-serif;
-		border-collapse: collapse;
-		width: 100%;
-	}
-
-	table.b {
-		font-family: arial, sans-serif;
-		border-collapse: collapse;
-		width: 40%;
-	}
-
-	td,
-	th {
-		border: 1px solid #dddddd;
-		text-align: left;
-		padding: 8px;
-	}
-
-	.wrapper {
-		display: flex;
-		flex-direction: row;
-	}
-
-	.right {
-		width: 60%;
-	}
-
-	.left {
-		width: 40%;
-	}
-
-	#myDIV {
-		width: 100%;
-		padding: 0px 0;
-		text-align: left;
-		background-color: none;
-		margin-top: 0px;
-	}
-
-	#myDIV2 {
-		width: 100%;
-		padding: 0px 0;
-		text-align: left;
-		background-color: none;
-		margin-top: 0px;
-	}
-
-	#myDIV3 {
-		width: 100%;
-		padding: 0px 0;
-		text-align: left;
-		background-color: none;
-		margin-top: 0px;
-	}
-
-	.selected {
-		color: red;
-	}
-</style>
-{% endblock %}
 {% block content %}
 科目の登録・変更を行います。<br>
 下の時間割から登録・変更したい時間をクリックしてください。<br>
-<table class="a" id="display-table">
+
+<table class="table table-striped table-bordered" id="display-table">
 	<thead>
 		<th></th>
 		<th>月</th>
@@ -106,12 +44,12 @@
 </div>
 
 
-<div class="wrapper">
-	<div class='left'>
+<div class="row">
+    <div class="col-xl-4">
 		<div id="myDIV" style="display:none">
 			<p>
-				科目群を選択してください。<br>
-			<table class="b" id="display-table-2">
+			科目群を選択してください。<br>
+			<table class="table table-striped table-bordered w-50" id="display-table-2">
 				<tr>
 					<td>専門</td>
 				</tr>
@@ -134,40 +72,11 @@
 			</p>
 		</div>
 	</div>
-	<div class='right'>
+	<div class="col-xl-8">
 		<div id="myDIV2" style="display:none">
-			<p>
-				追加したい科目名をクリックしてください。
+			追加したい科目名をクリックしてください。
 			<div id="myDIV4">
-				<p>
-				<table class="a" id="display-table-3">
-					<thead>
-						<th>科目群</th>
-						<th>科目名</th>
-						<th>教員</th>
-						<th>キャンパス</th>
-						<th>単位</th>
-					</thead>
-					<tbody>
-						<tr>
-							<td></td>
-							<td>bla</td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-					</tbody>
-				</table>
-				</p>
 			</div>
-			</p>
 		</div>
 	</div>
 </div>
@@ -298,7 +207,7 @@
 				// すでに選択されている場合 → returnで抜ける
 				if (CellSelected.style.backgroundColor === "yellow") {
 					CellSelected.style.backgroundColor = "";
-					CellSelected.classList.remove('selected');
+					CellSelected.style.color = "";
 					if (document.getElementById("myDIV").style.display === "block") {
 						myFunction();
 					}
@@ -318,12 +227,12 @@
 				// ほかのセルは非選択にする
 				for (var c = 0; c < cellsNotSelected.length; c++) {
 					cellsNotSelected[c].style.backgroundColor = "";
-					cellsNotSelected[c].classList.remove('selected');
+					cellsNotSelected[c].style.color = "";
 				}
 
 				// セルの色を変える
 				CellSelected.style.backgroundColor = "yellow";
-				CellSelected.className += " selected";
+				CellSelected.style.color = "red";
 				rowId += 1;
 				if (table.rows[rowId].cells[cellId + 1].innerHTML === "")
 					document.getElementById("cSubjId").innerHTML = "無";
@@ -394,7 +303,7 @@
 		if (CF === 0 && SF === 1) {
 			for (var i = 0; i < rows.length; i++) {
 				rows[i].style.backgroundColor = "";
-				rows[i].classList.remove('selected');
+				rows[i].style.color = "";
 			}
 			CF2.fill(0);
 			SF = 0;
@@ -411,8 +320,9 @@
 
 				if (rowSelected.style.backgroundColor === "yellow") {
 					rowSelected.style.backgroundColor = "";
-					rowSelected.classList.remove('selected');
+					rowSelected.style.color = "";
 					CF2[rowId] -= 1;
+					subjLoad(CF2);
 					if (CF2.every(ZF) === true && SF === 1) {
 						myFunction2();
 						SF = 0;
@@ -420,7 +330,7 @@
 					return;
 				}
 				rowSelected.style.backgroundColor = "yellow";
-				rowSelected.className += " selected";
+				rowSelected.style.color = "red";
 				CF2[rowId] += 1;
 				subjLoad(CF2);
 				if (CF2.every(ZF) === false && SF === 0) {
@@ -441,7 +351,7 @@
 		if (CF === 0 && CF3 === 1) {
 			for (var i = 0; i < rows.length; i++) {
 				rows[i].style.backgroundColor = "";
-				rows[i].classList.remove('selected');
+				rows[i].style.style.color = "";
 			}
 			CF3 = 0;
 			myFunction3();
@@ -457,7 +367,7 @@
 
 				if (rowSelected.style.backgroundColor === "yellow") {
 					rowSelected.style.backgroundColor = "";
-					rowSelected.classList.remove('selected');
+					rowSelected.style.color = "";
 					myFunction3();
 					CF3 = 0;
 					return;
@@ -465,11 +375,11 @@
 
 				for (var row = 0; row < rowsNotSelected.length; row++) {
 					rowsNotSelected[row].style.backgroundColor = "";
-					rowsNotSelected[row].classList.remove('selected');
+					rowsNotSelected[row].style.color = "";
 				}
 
 				rowSelected.style.backgroundColor = "yellow";
-				rowSelected.className += " selected";
+				rowSelected.style.color = "red";
 
 				if (CF3 === 0) {
 					myFunction3();
