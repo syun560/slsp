@@ -143,7 +143,7 @@ def sim_get(request,a,b,c,d,e,f):
     r4 = re4['course_id__subject_id__credit__sum'] if re4['course_id__subject_id__credit__sum'] != None else 0
     r5 = re5['course_id__subject_id__credit__sum'] if re5['course_id__subject_id__credit__sum'] != None else 0
     r6 = re6['course_id__subject_id__credit__sum'] if re6['course_id__subject_id__credit__sum'] != None else 0
-    sum = r1 + r2 + r3 + r4 + r5 + r6
+    summ = r1 + r2 + r3 + r4 + r5 + r6
     required = ShibauraRule.objects.filter(department='情報工学科').first().credit_for_graduation
 
     params = {
@@ -153,9 +153,9 @@ def sim_get(request,a,b,c,d,e,f):
         'jinbun':  str(r4 + d) + ' ('  + str(r4) + ')',
         'kenkou':  str(r5 + e) + ' ('  + str(r5) + ')',
         'kougaku': str(r6 + f) + ' ('  + str(r6) + ')',
-        'sum': sum,
+        'sum': summ,
         'required': required,
-        'diff': required - sum,
+        'diff': required - summ,
     }
     return render(request, 'tanni/sim_tanni.html', params)
 
