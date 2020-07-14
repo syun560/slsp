@@ -179,8 +179,9 @@
 		（選択中：<a id=nSubjId></a>）
 	<form action="{% url 'tanni:reg_add' %}" method="POST">
 		{% csrf_token %}
-		<input type="hidden" id="week" name="曜日">
-		<input type="hidden" id="period" name="時限">
+		<input type="hidden" id="course_id" name="course_id">
+		<input type="hidden" id="submit_week" name="week">
+		<input type="hidden" id="submit_period" name="period">
 		<input type="hidden" id="nSubjGrpId" name="科目群名">
 		<input type="hidden" id="subject" name="subject">
 		<input type="hidden" id="tchr" name="教員">
@@ -482,6 +483,8 @@
 				document.getElementById("crd").innerHTML = table.rows[rowId].cells[4].innerHTML;
 				
 				document.getElementById("subject").value = table.rows[rowId].cells[1].innerHTML;
+				document.getElementById("submit_week").value = week;
+				document.getElementById("submit_period").value = period;
 			}
 		}
 	}
