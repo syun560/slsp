@@ -45,7 +45,7 @@ def home(request):
 
 @login_required
 def userlist(request):
-    """ C5.M1: システムに登録されたすべてのユーザ情報を取得し、結果画面W4を返す
+    """ C5.M1: システムに登録されたユーザ情報を取得し、結果画面W4を返す
 
     Args:
         request (HttpRequest): HttpRequestオブジェクト
@@ -59,7 +59,7 @@ def userlist(request):
     user_list = User.objects.all()
 
     # POSTアクセス時の処理、絞り込み
-    if request.method == 'POST':
+    if request.method == 'POST' and request.POST['faculty'] != '選択しない':
         search_word = request.POST['faculty'] + request.POST['department']
         user_list = User.objects.filter(student_id__contains=search_word)
 
