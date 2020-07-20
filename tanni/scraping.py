@@ -9,6 +9,15 @@ from bs4 import BeautifulSoup
 from .models import Subject, Course
 
 def time_scraping(url):
+	""" C8.M2: 時間割からデータをスクレイピングし、DBに保存する
+
+    Args:
+        url (String): スクレイピング対象のurl
+
+    Returns:
+        HttpResponse: 画面W8
+
+    """
     # get html
 	html = request.urlopen(url)
 
@@ -58,6 +67,17 @@ def time_scraping(url):
 						
 
 def syllabus_scraping(url, group):
+	""" C8.M3: シラバスからデータをスクレイピングし、DBに保存する
+
+    Args:
+        url (String): スクレイピング対象のurl
+		group (String): 科目群
+
+    Returns:
+        int: 保存したレコード数
+
+    """
+
 	# get html
 	html = request.urlopen ( url )
    	# set BeautifulSoup
