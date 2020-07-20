@@ -8,7 +8,16 @@ from .models import UserTimeTable, Course, ShibauraRule
 from .scraping import *
 
 def getTimeTable(id):
-    # ログインユーザの履修している科目を取得
+    """ 指定されたユーザの履修科目を時間割の形で返す（共通処理）
+
+    Args:
+        id: (int): ユーザid
+
+    Returns:
+        縦5(次限), 横6(曜日)の2次元リスト
+
+    """
+    # ユーザの履修している科目を取得
     user_table = UserTimeTable.objects.filter(user_id=id)
 
     # 時間割に適した形で取得
@@ -20,23 +29,32 @@ def getTimeTable(id):
 
 @login_required
 def home(request):
+    """ C3.M1: W2 ホーム画面を作成し返す
+
+    Args:
+        request (HttpRequest): HttpRequestオブジェクト
+
+    Returns:
+        HttpResponse: 画面W2 
+
+    """
     params = {
         'time_table': getTimeTable(request.user),
     }
     return render(request, 'tanni/home.html', params)
 
 @login_required
-def userinfo(request, student_id):
-    # 学籍番号からUserを取得
-    selected_user = User.objects.filter(student_id=student_id).first()
-    params = {
-        'time_table': getTimeTable(selected_user.id),
-        'selected_user': selected_user,
-    }
-    return render(request, 'tanni/userinfo.html', params)
-
-@login_required
 def userlist(request):
+    """ C5.M1: システムに登録されたすべてのユーザ情報を取得し、結果画面W4を返す
+
+    Args:
+        request (HttpRequest): HttpRequestオブジェクト
+        student_id (int): 取得対象のユーザの学籍番号
+
+    Returns:
+        HttpResponse: 画面W4 
+
+    """
     # 共通処理、すべてのユーザの情報を取得
     user_list = User.objects.all()
 
@@ -51,6 +69,26 @@ def userlist(request):
     return render(request, 'tanni/userlist.html', params)
 
 @login_required
+def userinfo(request, student_id):
+    """ C5.M2: 選択されたユーザの情報を取得し、結果画面W5を返す
+
+    Args:
+        request (HttpRequest): HttpRequestオブジェクト
+        student_id (int): 取得対象のユーザの学籍番号
+
+    Returns:
+        HttpResponse: 画面W5 
+
+    """
+    # 学籍番号からUserを取得
+    selected_user = User.objects.filter(student_id=student_id).first()
+    params = {
+        'time_table': getTimeTable(selected_user.id),
+        'selected_user': selected_user,
+    }
+    return render(request, 'tanni/userinfo.html', params)
+
+@login_required
 def reg(request):
     params = {
         'time_table': getTimeTable(request.user),
@@ -61,10 +99,18 @@ def reg(request):
 def reg_add(request):
     if request.method=='POST':
         # 時間割追加処理
-        course_id = Course.objects.filter(subject_id__title=request.POST['subject'], week=request.POST['week'], period=request.POST['period']).first()
+        week = request.POST['week']
+        period = request.POST['period']
+        course_id = Course.objects.filter(subject_id__title=request.POST['subject'], week=week, period=period).first()
 
         # 同じcourse_idが存在しなければ追加
         if not UserTimeTable.objects.filter(user_id=request.user, course_id=course_id).exists():
+
+            # すでに同曜日、同時限に科目が登録されていれば削除
+            usr_table = UserTimeTable.objects.filter(course_id__week=week, course_id__period=period)
+            if usr_table.exists():
+                usr_table.first().delete()
+
             usr_table = UserTimeTable(user_id=request.user, course_id=course_id, status='履修中')
             usr_table.save()
 
@@ -112,6 +158,15 @@ def reg_delete(request):
 
 @login_required
 def sim(request):
+    """ C4.M1: シミュレーション画面表示
+
+    Args:
+        request (HttpRequest): HttpRequestオブジェクト
+
+    Returns:
+        HttpResponse: 画面W5
+
+    """
     params = {
         
     }
@@ -119,6 +174,21 @@ def sim(request):
 
 @login_required
 def sim_get(request,a,b,c,d,e,f):
+    """ C4.M2: シミュレーション処理
+
+    Args:
+        request (HttpRequest): HttpRequestオブジェクト
+        a (int): スラサポ登録以前に取得した、専門科目単位
+        b (int): スラサポ登録以前に取得した、共通数理科目単位
+        c (int): スラサポ登録以前に取得した、言語・情報系科目単位
+        d (int): スラサポ登録以前に取得した、人文社会系教養科目単位
+        e (int): スラサポ登録以前に取得した、共通健康科目単位
+        f (int): スラサポ登録以前に取得した、共通工学系教養科目単位
+
+    Returns:
+        HttpResponse: W5 レンダリングされた画面 
+
+    """
     # セーブ処理
     obj = User.objects.get(id=request.user.id)
     obj.senmon = a
@@ -162,6 +232,15 @@ def sim_get(request,a,b,c,d,e,f):
 
 @login_required
 def scraping(request):
+    """ C8.M1: 全てのスクレイピングを実行し、結果画面をW8を返す
+
+    Args:
+        request (HttpRequest): HttpRequestオブジェクト
+
+    Returns:
+        HttpResponse: 画面W8
+
+    """
     cnt = ccnt = 0
     url_list = [
         'http://syllabus.sic.shibaura-it.ac.jp/syllabus/2018/MatrixL01131.html.ja', # 専門
