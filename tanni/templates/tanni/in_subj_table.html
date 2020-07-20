@@ -1,0 +1,22 @@
+<table class="table table-striped table-bordered" id="subj_table">
+    <thead>
+        <th>科目群</th>
+        <th>科目名</th>
+        <th>教員</th>
+        <th>キャンパス</th>
+        <th>単位</th>
+    </thead>
+    <tbody>
+	<td>a</td><td>b</td><td>c</td><td>d</td><td>e</td>
+        {% for course in course_list %}
+        <tr>
+			
+            <td>{{ course.subject_id.group }}</td>
+            <td>{{ course.subject_id.title }}</td>
+            <td>{{ course.teacher }}</td>
+            <td>{{ course.place }}</td>
+            <td>{{ course.subject_id.credit }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

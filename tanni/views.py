@@ -141,7 +141,7 @@ def reg_get(request,a,b,c,d,e,f,week,period):
     params = {
         'course_list': course_list,
     }
-    return render(request, 'tanni/myDIV4.html', params)
+    return render(request, 'tanni/in_subj_table.html', params)
 
 @login_required
 def reg_delete(request):
