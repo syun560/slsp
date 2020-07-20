@@ -184,8 +184,7 @@
 			}
 		})
 	}
-
-
+	
 	choose1();
 	function choose1() {
 		let table = document.getElementById('display-table');
@@ -222,6 +221,7 @@
 						choose2();
 					if (CF3 === 1)
 						choose3();
+						
 					return;
 				}
 
@@ -294,7 +294,7 @@
 			}
 		}
 	}
-
+	
 	choose2();
 	function choose2() {
 
@@ -343,7 +343,6 @@
 		}
 	}
 
-	choose3();
 	function choose3() {
 
 		var table = document.getElementById('display-table-3');
@@ -353,10 +352,10 @@
 		if (CF === 0 && CF3 === 1) {
 			for (var i = 0; i < rows.length; i++) {
 				rows[i].style.backgroundColor = "";
-				rows[i].style.style.color = "";
+				rows[i].style.color = "";
 			}
-			CF3 = 0;
 			myFunction3();
+			CF3 = 0;
 			return;
 		}
 
@@ -387,7 +386,7 @@
 					myFunction3();
 					CF3 = 1;
 				}
-
+				
 				document.getElementById("nSubjGrpId").innerHTML = table.rows[rowId].cells[0].innerHTML;
 				document.getElementById("nSubjId").innerHTML = table.rows[rowId].cells[1].innerHTML;
 				document.getElementById("tchr").innerHTML = table.rows[rowId].cells[2].innerHTML;
@@ -397,6 +396,8 @@
 				document.getElementById("subject").value = table.rows[rowId].cells[1].innerHTML;
 				document.getElementById("submit_week").value = week;
 				document.getElementById("submit_period").value = period;
+				
+				
 			}
 		}
 	}
