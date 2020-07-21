@@ -7,29 +7,9 @@ from account.models import User
 from .models import UserTimeTable, Course, ShibauraRule
 from .scraping import *
 
-def getTimeTable(id):
-    """ 指定されたユーザの履修科目を時間割の形で返す（共通処理）
-
-    Args:
-        id: (int): ユーザid
-
-    Returns:
-        縦5(次限), 横6(曜日)の2次元リスト
-
-    """
-    # ユーザの履修している科目を取得
-    user_table = UserTimeTable.objects.filter(user_id=id)
-
-    # 時間割に適した形で取得
-    time_table = [["" for s in range(6)] for ss in range(5)]
-    for tt in user_table:
-        time_table[tt.course_id.period - 1][tt.course_id.week - 1] = tt.course_id.subject_id.title
-
-    return time_table
-
 @login_required
 def home(request):
-    """ C3.M1: W2 ホーム画面を作成し返す
+    """ C3.M1: 時間割を取得し、ホーム画面を表示する
 
     Args:
         request (HttpRequest): HttpRequestオブジェクト
@@ -44,52 +24,16 @@ def home(request):
     return render(request, 'tanni/home.html', params)
 
 @login_required
-def userlist(request):
-    """ C5.M1: システムに登録されたユーザ情報を取得し、結果画面W4を返す
-
-    Args:
-        request (HttpRequest): HttpRequestオブジェクト
-        student_id (int): 取得対象のユーザの学籍番号
-
-    Returns:
-        HttpResponse: 画面W4 
-
-    """
-    # 共通処理、すべてのユーザの情報を取得
-    user_list = User.objects.all()
-
-    # POSTアクセス時の処理、絞り込み
-    if request.method == 'POST' and request.POST['faculty'] != '選択しない':
-        search_word = request.POST['faculty'] + request.POST['department']
-        user_list = User.objects.filter(student_id__contains=search_word)
-
-    params = {
-        'user_list': user_list,
-    }
-    return render(request, 'tanni/userlist.html', params)
-
-@login_required
-def userinfo(request, student_id):
-    """ C5.M2: 選択されたユーザの情報を取得し、結果画面W5を返す
-
-    Args:
-        request (HttpRequest): HttpRequestオブジェクト
-        student_id (int): 取得対象のユーザの学籍番号
-
-    Returns:
-        HttpResponse: 画面W5 
-
-    """
-    # 学籍番号からUserを取得
-    selected_user = User.objects.filter(student_id=student_id).first()
-    params = {
-        'time_table': getTimeTable(selected_user.id),
-        'selected_user': selected_user,
-    }
-    return render(request, 'tanni/userinfo.html', params)
-
-@login_required
 def reg(request):
+    """ C3.M2: 時間割を取得し、登録画面を表示する
+
+    Args:
+        request (HttpRequest): HttpRequestオブジェクト
+
+    Returns:
+        HttpResponse: 画面W3
+
+    """
     params = {
         'time_table': getTimeTable(request.user),
     }
@@ -97,6 +41,15 @@ def reg(request):
 
 @login_required
 def reg_add(request):
+    """ C3.M3: 選択された科目を時間割に追加する
+
+    Args:
+        request (HttpRequest): HttpRequestオブジェクト
+
+    Returns:
+        HttpResponseRedirect: 画面W3
+
+    """
     if request.method=='POST':
         # 時間割追加処理
         week = request.POST['week']
@@ -122,6 +75,23 @@ def reg_add(request):
 
 @login_required
 def reg_get(request,a,b,c,d,e,f,week,period):
+    """ C3.M4: 選択された曜日、時限、グループの科目一覧を取得し、返す
+
+    Args:
+        request (HttpRequest): HttpRequestオブジェクト
+        a (int): 「専門」が選択されているか(1 or 0)
+        b (int): 「共通数理」が選択されているか(1 or 0)
+        c (int): 「言語・情報系」が選択されているか(1 or 0)
+        d (int): 「人文社会系教養」が選択されているか(1 or 0)
+        e (int): 「共通健康科目単位」が選択されているか(1 or 0)
+        f (int): 「共通工学系教養」が選択されているか(1 or 0)
+        week (int): 選択された週
+        period (int): 選択された時限
+
+    Returns:
+        HttpResponse: W3画面
+
+    """
     print(a,b,c,d,e,f,week,period)
     aa = bb = cc = dd = ee = ff = Course.objects.filter(subject_id__group='')
     if a == 1:
@@ -145,6 +115,15 @@ def reg_get(request,a,b,c,d,e,f,week,period):
 
 @login_required
 def reg_delete(request):
+    """ C3.M5: 指定された曜日、時限に登録された時間割の削除を行う
+
+    Args:
+        request (HttpRequest): HttpRequestオブジェクト
+
+    Returns:
+        HttpResponse: 画面W3
+
+    """
     # 時間割削除処理
     week = request.POST['week']
     period = request.POST['period']
@@ -155,6 +134,26 @@ def reg_delete(request):
 
     # 履修登録ページにリダイレクト
     return redirect('tanni:reg')
+
+def getTimeTable(id):
+    """ C3.M6 指定されたユーザの履修科目を時間割の形で返す
+ 
+    Args:
+        id: (int): ユーザid
+
+    Returns:
+        縦5(次限), 横6(曜日)の2次元リスト
+
+    """
+    # ユーザの履修している科目を取得
+    user_table = UserTimeTable.objects.filter(user_id=id)
+
+    # 時間割に適した形で取得
+    time_table = [["" for s in range(6)] for ss in range(5)]
+    for tt in user_table:
+        time_table[tt.course_id.period - 1][tt.course_id.week - 1] = tt.course_id.subject_id.title
+
+    return time_table
 
 @login_required
 def sim(request):
@@ -229,6 +228,49 @@ def sim_get(request,a,b,c,d,e,f):
     }
     return render(request, 'tanni/sim_tanni.html', params)
 
+@login_required
+def userlist(request):
+    """ C5.M1: システムに登録されたユーザ情報一覧を取得し、結果画面W4を返す
+
+    Args:
+        request (HttpRequest): HttpRequestオブジェクト
+
+    Returns:
+        HttpResponse: 画面W4 
+
+    """
+    # 共通処理、すべてのユーザの情報を取得
+    user_list = User.objects.all()
+
+    # POSTアクセス時の処理、絞り込み
+    if request.method == 'POST' and request.POST['faculty'] != '選択しない':
+        search_word = request.POST['faculty'] + request.POST['department']
+        user_list = User.objects.filter(student_id__contains=search_word)
+
+    params = {
+        'user_list': user_list,
+    }
+    return render(request, 'tanni/userlist.html', params)
+
+@login_required
+def userinfo(request, student_id):
+    """ C5.M2: 選択されたユーザの情報を取得し、結果画面W5を返す
+
+    Args:
+        request (HttpRequest): HttpRequestオブジェクト
+        student_id (int): 取得対象のユーザの学籍番号
+
+    Returns:
+        HttpResponse: 画面W5 
+
+    """
+    # 学籍番号からUserを取得
+    selected_user = User.objects.filter(student_id=student_id).first()
+    params = {
+        'time_table': getTimeTable(selected_user.id),
+        'selected_user': selected_user,
+    }
+    return render(request, 'tanni/userinfo.html', params)
 
 @login_required
 def scraping(request):

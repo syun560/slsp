@@ -8,8 +8,12 @@ from .forms import LoginForm
 
 # Create your views here.
 class Login(LoginView):
+    """ C1.M1: ログイン処理を行う
+    """
     form_class = LoginForm
     template_name = 'account/login.html'
 
 class Logout(LogoutView):
+    """ C1.M2: ログアウト処理を行う
+    """
     template_name = 'account/logout.html'

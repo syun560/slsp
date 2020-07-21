@@ -25,7 +25,6 @@ class Course(models.Model):
     def __str__(self):
         return str(self.subject_id) + str(self.week) + str(self.period)
 
-
 # C7.M3 学則情報モデル
 class ShibauraRule(models.Model):
     department = models.CharField(verbose_name='学科', max_length=64)
@@ -36,7 +35,7 @@ class ShibauraRule(models.Model):
     def __str__(self):
         return self.department
 
-# C6.M2 ユーザ時間割モデル（本来ここに書くべきでない、あとで移動するかも）
+# C6.M2 ユーザ時間割モデル
 class UserTimeTable(models.Model):
     user_id = models.ForeignKey(User, verbose_name='ユーザid', on_delete=models.CASCADE)
     course_id = models.ForeignKey(Course, verbose_name='開講科目id', on_delete=models.CASCADE)
