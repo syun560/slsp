@@ -1,158 +1,124 @@
 {% extends 'tanni/base.html' %}
-{% block style %}
-<style>
-.right {
-float: right;
-	width: 125px;
-	border: 3px solid #73AD21;
-	padding: 5px;
-}
-.center {
-	margin: auto;
-	width: 50%;
-	text-align: center;
-	border: 0px solid green;
-	padding: 10px;
-}
-table.a {
-	font-family: arial, sans-serif;
-	border-collapse: collapse;
-	width: 100%;
-}
-table.b { 
-	font-family: arial, sans-serif;
-	border-collapse: collapse;
-	width: 30%;
-}
-td, th {
-	border: 1px solid #dddddd;
-	text-align: left;
-	padding: 8px;
-}
-#myDIV {
-	width: 100%;
-	padding: 50px 0;
-	text-align: left;
-	background-color: none;
-	margin-top: 20px;
-}
-</style>
-{% endblock %}
-
 {% block content %}
-<a id=AccountID></a>としてログインしています。
 <p>卒業に必要な単位のシミュレーションを行います。</p>
 <p>＜取得済み単位＞</p>
 <p>スラサポ利用前（２０１９年度後期以前）</p>
 <p>科目群ごとに取得した単位数を入力し、確定をクリックしてください。</p>
-<table class="a">
-	<thead>
-		<th>科目群</th><th>単位数</th>
-	</thead>
+<table class="table table-striped table-bordered">
+	<thread>
+		<th>科目群</th>
+		<th>単位数</th>
+	</thread>
 	<tr>
-		<td>専門</td><td><input type="number" id="s1" name="spec" min="0" max="99"  value="0"></td>
+		<td>専門</td>
+		<td><input type="number" id="s1" name="spec" min="0" max="99" value="0"></td>
 	</tr>
 	<tr>
-		<td>共通数理</td><td><input type="number" id="s2" name="math" min="0" max="99"  value="0"></td>
+		<td>共通数理</td>
+		<td><input type="number" id="s2" name="math" min="0" max="99" value="0"></td>
 	</tr>
 	<tr>
-		<td>言語・情報系</td><td><input type="number" id="s3" name="lang" min="0" max="99"  value="0"></td>
+		<td>言語・情報系</td>
+		<td><input type="number" id="s3" name="lang" min="0" max="99" value="0"></td>
 	</tr>
 	<tr>
-		<td>人文社会系教養</td><td><input type="number" id="s4" name="social" min="0" max="99" value="0"></td>
+		<td>人文社会系教養</td>
+		<td><input type="number" id="s4" name="social" min="0" max="99" value="0"></td>
 	</tr>
 	<tr>
-		<td>共通健康</td><td><input type="number" id="s5" name="health" min="0" max="99" value="0"></td>
+		<td>共通健康</td>
+		<td><input type="number" id="s5" name="health" min="0" max="99" value="0"></td>
 	</tr>
 	<tr>
-		<td>共通工学系教養</td><td><input type="number" id="s6" name="engine" min="0" max="99" value="0"></td>
+		<td>共通工学系教養</td>
+		<td><input type="number" id="s6" name="engine" min="0" max="99" value="0"></td>
 	</tr>
 </table>
 
-<div class="center">
-	<button onclick="myFunction();calculate()">確定</button>
+<div style="text-align:center">
+	<button onclick="myFunction()">確定</button>
 </div>
 
-<div id="myDIV" style="display:none">
-	<p>
-		・スラサポ登録分
-		<table class="b">
-			<tr>
-			<td>専門</td><td></td>
-			</tr>
-			<tr>
-			<td>共通数理</td><td></td>
-			</tr>
-			<tr>
-			<td>言語・情報系</td><td></td>
-			</tr>
-			<tr>
-			<td>人文社会系教養</td><td></td>
-			</tr>
-			<tr>
-			<td>共通健康</td><td></td>
-			</tr>
-			<tr>
-			<td>共通工学系教養</td><td></td>
-			</tr>
-			<tr>
-			<td>取得済み単位合計</td><td><a id=totalcrd></a></td>
-			</tr>
-		</table>
-		<br>
-		<br>
-		＜卒業に必要な残りの単位＞
-		<table class="b">
-			<tr>
-				<td>専門</td><td></td>
-			</tr>
-			<tr>
-				<td>共通数理</td><td></td>
-			</tr>
-			<tr>
-				<td>言語・情報系</td><td></td>
-			</tr>
-			<tr>
-				<td>人文社会系教養</td><td></td>
-			</tr>
-			<tr>
-				<td>共通健康</td><td></td>
-			</tr>
-			<tr>
-				<td>共通工学系教養</td><td></td>
-			</tr>
-			<tr>
-				<td>卒業に必要な残りの単位合計</td><td></td>
-			</tr>
-		</table>
-	</p>
+<div class="row" id="myDIV" style="display:none">
 </div>
 {% endblock %}
 
 {% block script %}
 <script>
-	var AccountID = "";
-	document.getElementById("AccountID").innerHTML = "AB12345";
+	let totalcrd = 0;
+	let s = Array(6);
+
+	// DBに保存された値をセット
+	window.onload = function() {
+		document.getElementById('s1').value = {{ user.senmon }};
+		document.getElementById('s2').value = {{ user.suuri }};
+		document.getElementById('s3').value = {{ user.gengo }};
+		document.getElementById('s4').value = {{ user.jinbun }};
+		document.getElementById('s5').value = {{ user.kenkou }};
+		document.getElementById('s6').value = {{ user.kougaku }};
+	};
+
+	// 確定ボタンを押した時の処理
 	function myFunction() {
-    	var x = document.getElementById("myDIV");
-    	if (x.style.display === "none") {
-    		x.style.display = "block";
-		} 
-	}
-	function calculate(){
-		var sum = 0;
-		var s = [
-			document.getElementById('s1').value,
-			document.getElementById('s2').value,
-			document.getElementById('s3').value,
-			document.getElementById('s4').value,
-			document.getElementById('s5').value,
-			document.getElementById('s6').value
-		]; 
-		for (var i = 0; i < s.length ; i++){
-			sum += parseInt(s[i]);
+		let x = document.getElementById("myDIV");
+		// let y = document.getElementById("myDIV2");
+		if (x.style.display === "none" /*&& y.style.display === "none"*/) {
+			x.style.display = "block";
+			// y.style.display = "block";
 		}
+
+		// 入力された単位の取得
+		s = [
+			parseInt(document.getElementById('s1').value),
+			parseInt(document.getElementById('s2').value),
+			parseInt(document.getElementById('s3').value),
+			parseInt(document.getElementById('s4').value),
+			parseInt(document.getElementById('s5').value),
+			parseInt(document.getElementById('s6').value)
+		];
+
+		// ajaxで単位を保存、ロード
+		creditLoad();
+
+		// シミュレーション
+		// creditLoad2();
+
+		// 計算
+		// calculate()
+	}
+
+	// 単位の合計を計算する
+	function calculate() {
+		let sum = 0;
+		// s = [
+		// 	parseInt(document.getElementById('s1').value),
+		// 	parseInt(document.getElementById('s2').value),
+		// 	parseInt(document.getElementById('s3').value),
+		// 	parseInt(document.getElementById('s4').value),
+		// 	parseInt(document.getElementById('s5').value),
+		// 	parseInt(document.getElementById('s6').value)
+		// ]; //s[] = 入力値(intでなくlet)
+		// for (let i = 0; i < s.length; i++) {
+		// 	sum += parseInt(s[i]); //paseInt(x)-> let x => int x
+		// }
 		document.getElementById("totalcrd").innerHTML = sum;
+	}
+
+	// 単位保存と読み込み
+	function creditLoad(){
+		let url = "/sim_get/" + s;
+		$.ajax({
+			type: 'GET',
+			url: url,
+			success: function (data) {
+				$('#myDIV').html(data);
+			}
+		})
+	}
+
+	function creditLoad2(){
+		let url = ""/* お願いします */;
+		// $("#myDIV2").load(url);
 	}
 </script>
 {% endblock %}

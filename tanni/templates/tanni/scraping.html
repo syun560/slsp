@@ -1,0 +1,8 @@
+{% extends 'tanni/base.html' %}
+{% block content %}
+    {% for url in url_list %}
+    <p><a href="{{ url }}">{{url}}</a>からスクレイピングを行いました</p>
+    {% endfor %}
+    <p>Subjectに{{ cnt }}件の追加を行いました</p>
+    <p>Courseに{{ ccnt }}件の追加を行いました</p>
+{% endblock %}
