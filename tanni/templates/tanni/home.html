@@ -1,19 +1,23 @@
+<!--
+Name	  : W2 ホーム画面
+Designer  : al18119
+Updated   : 2020/07/21
+-->
 {% extends 'tanni/base.html' %}
 {% block content %}
+<!--ページタイトル-->
 <div class="row">
     <div class="col-sm-3"></div>
     <div class="col-sm-6">
         <h2 style="text-align:center">ホーム</h2>
-        <p class="text-danger">
-            <!--error_messageはここに入れる-->
-            <!--username error, password error, confirmation error-->
-        </p>
     </div>
     <div class="col-sm-3"></div>
 </div>
 
+<!--リンク-->
 <div class="row">
     <div class="col-sm-12">
+        <!--履修登録状態確認-->
         <h2 class="text-center"><a href="{% url 'tanni:reg' %}">履修状況変更</a></h2>
         <h5 class="text-center">自分の履修状況を確認・変更する</h5>
         <div class="table-responsive">
@@ -29,6 +33,7 @@
                         <th scope="col" style="width: 15%" class="text-center">土</th>
                     </tr>
                 </thead>
+                <!--データベースから読み込む-->
                 <tbody>
                     {% for jk in time_table %}
                     <tr>
@@ -41,11 +46,12 @@
                 </tbody>
             </table>
         </div>
-<!--        <p>aaaa</p>   -->
         <br>
+        <!--シミュレーション-->
         <h2 class="text-center"><a href="{% url 'tanni:sim' %}">シミュレーション</a></h2>
         <h5 class="text-center">卒業要件の単位数計算</h5>
         <br>
+        <!--他ユーザーの履修状況-->
         <h2 class="text-center"><a href="{% url 'tanni:userlist' %}">ユーザ一覧</a></h2>
         <h5 class="text-center">他のユーザの履修状況を確認する</h5>
     </div>
